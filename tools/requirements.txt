@@ -7,7 +7,7 @@ google-auth==2.8.0
 google-cloud-core==2.2.2
 google-cloud-firestore==2.3.4
 googleapis-common-protos==1.56.2
-idna==2.10
+idna==3.7
 protobuf==4.21.6
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
