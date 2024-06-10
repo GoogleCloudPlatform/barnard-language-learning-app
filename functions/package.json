@@ -18,8 +18,8 @@
   },
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.0.20",
-    "@google-cloud/datastore": "^6.4.0",
-    "@google-cloud/vision": "^2.3.1",
+    "@google-cloud/datastore": "^9.0.0",
+    "@google-cloud/vision": "^4.3.0",
     "cors": "^2.8.5",
     "fluent-ffmpeg": "^2.1.2",
     "googleapis": "^49.0.0",
