@@ -17,4 +17,4 @@ requests==2.28.0
 rsa==4.7
 six==1.15.0
 toml==0.10.2
-urllib3==1.26.5
+urllib3==1.26.19
