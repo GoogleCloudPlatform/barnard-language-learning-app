@@ -1,5 +1,6 @@
 {
   "name": "functions",
+  "main": "index.js",
   "description": "Cloud Functions for Firebase",
   "scripts": {
     "lint": "eslint .",

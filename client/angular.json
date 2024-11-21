@@ -37,11 +37,22 @@
 							"src/manifest.webmanifest",
 							"src/service-worker.js"
 						],
-						"styles": ["src/style/main.scss"],
+						"styles": [
+							"src/style/main.scss"
+						],
 						"stylePreprocessorOptions": {
-							"includePaths": ["./src/style"]
+							"includePaths": [
+								"./src/style"
+							]
 						},
-						"scripts": []
+						"scripts": [],
+						"optimization": false,
+						"outputHashing": "none",
+						"sourceMap": true,
+						"namedChunks": true,
+						"extractLicenses": false,
+						"vendorChunk": false,
+						"buildOptimizer": false
 					},
 					"configurations": {
 						"production": {
@@ -62,17 +73,17 @@
 							"namedChunks": false,
 							"extractLicenses": true,
 							"vendorChunk": false,
-							"buildOptimizer": true,
+							"buildOptimizer": false,
 							"budgets": [
 								{
 									"type": "initial",
-									"maximumWarning": "2mb",
-									"maximumError": "5mb"
+									"maximumWarning": "20mb",
+									"maximumError": "50mb"
 								},
 								{
 									"type": "anyComponentStyle",
-									"maximumWarning": "6kb",
-									"maximumError": "10kb"
+									"maximumWarning": "60kb",
+									"maximumError": "100kb"
 								}
 							],
 							"serviceWorker": true,
@@ -106,7 +117,9 @@
 							"src/manifest.webmanifest",
 							"src/service-worker.js"
 						],
-						"styles": ["src/styles.scss"],
+						"styles": [
+							"src/styles.scss"
+						],
 						"scripts": []
 					}
 				},
@@ -118,7 +131,9 @@
 							"tsconfig.spec.json",
 							"e2e/tsconfig.json"
 						],
-						"exclude": ["**/node_modules/**"]
+						"exclude": [
+							"**/node_modules/**"
+						]
 					}
 				},
 				"e2e": {

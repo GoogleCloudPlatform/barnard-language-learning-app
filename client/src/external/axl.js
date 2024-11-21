@@ -52,7 +52,7 @@ const SMLG = window['__gci_axl'];
 const isTrustedOrigin = (origin) => {
   return DEV_MODE || !!SMLG ||
       !!origin.match(
-          /^https?\:\/\/((([\w-]*\.)+google(rs)?\.com)|(embed\.culturalspot\.org))(?:[\/:?#]|$)/i);
+          /^https?\:\/\/((([\w-]*\.)+google(rs)?\.com)|(embed\.culturalspot\.org)|(([\w-]*\.)+appspot\.com))(?:[\/:?#]|$)/i);
 };
 
 (function() {

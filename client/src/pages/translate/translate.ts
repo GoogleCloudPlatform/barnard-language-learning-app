@@ -1,42 +1,40 @@
+import { HttpClient } from "@angular/common/http";
 import {
-	OnInit,
 	Component,
 	Inject,
+	InjectionToken,
 	NgZone,
 	OnDestroy,
-	InjectionToken,
+	OnInit,
 } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { Router } from "@angular/router";
 import {
 	MAT_DIALOG_DATA,
 	MatDialog,
-	MatDialogContent,
-	MatDialogRef,
-	MatDialogTitle,
+	MatDialogRef
 } from "@angular/material/dialog";
+import { Router } from "@angular/router";
+import { AppRoutes } from "../../app/routes";
+import { LoadingPopUpComponent } from "../../components/loading-popup/loading-popup";
+import { I18nService } from "../../i18n/i18n.service";
+import { ANALYTICS_SERVICE, IAnalyticsService } from "../../services/analytics";
+import { EndangeredLanguageService } from "../../services/endangered-language";
 import {
 	Translation,
 	WordTranslation,
 } from "../../services/entities/translation";
-import { IAnalyticsService, ANALYTICS_SERVICE } from "../../services/analytics";
+import { ImageRenderingService } from "../../services/image-rendering";
+import { SessionService } from "../../services/session";
 import {
 	ITranslationService,
 	TRANSLATION_SERVICE,
 } from "../../services/translation";
-import { AppRoutes } from "../../app/routes";
-import { ImageRenderingService } from "../../services/image-rendering";
-import { downloadFile } from "../../util/file";
-import { SessionService } from "../../services/session";
-import { LoadingPopUpComponent } from "../../components/loading-popup/loading-popup";
-import { I18nService } from "../../i18n/i18n.service";
-import { EndangeredLanguageService } from "../../services/endangered-language";
-import { share } from "../../util/share";
-import { NotSupportedError } from "../../util/errors";
-import { validateImageData, validateImageURL } from "../../util/image";
 import { loadCapturePageURL } from "../../util/camera";
+import { NotSupportedError } from "../../util/errors";
+import { downloadFile } from "../../util/file";
+import { validateImageData, validateImageURL } from "../../util/image";
 import { getLogger } from "../../util/logging";
 import { isMobileDevice } from "../../util/platform";
+import { share } from "../../util/share";
 
 const logger = getLogger("TranslatePageComponent");
 
@@ -299,7 +297,10 @@ export class TranslatePageComponent implements OnInit, OnDestroy {
 							translation: "",
 							transliteration: "",
 							soundURL: "",
-							english: "",
+              english: "",
+							sentence: "",
+			  split_sentence: ["","",""],
+              translated_word: ""
 						},
 					],
 				}));

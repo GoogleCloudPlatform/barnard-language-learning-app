@@ -1,14 +1,14 @@
 import { AfterViewInit, Component, Inject, ViewChild } from "@angular/core";
+import { Router } from "@angular/router";
+import { AppRoutes } from "../../../app/routes";
 import { CameraPreviewComponent } from "../../../components/camera-preview/camera-preview";
 import { I18nService, Language } from "../../../i18n/i18n.service";
 import {
 	EndangeredLanguage,
 	EndangeredLanguageService,
 } from "../../../services/endangered-language";
-import { Router } from "@angular/router";
-import { loadCapturePageURL } from "../../../util/camera";
-import { AppRoutes } from "../../../app/routes";
 import { IProfileService, PROFILE_SERVICE } from "../../../services/profile";
+import { loadCapturePageURL } from "../../../util/camera";
 import { getLogger } from "../../../util/logging";
 interface PersistHistory {
 	image: Blob;
@@ -187,7 +187,7 @@ export class ChangeLanguagePageComponent implements AfterViewInit {
 			e.region !== null
 		) {
 			_endangeredLanguages = this.allLanguages.filter(
-				(lan) => lan.region.toLowerCase() === e.region.toLowerCase()
+				(lan) => (typeof lan.region === 'string' ? lan.region.toLowerCase() : lan.region) === e.region.toLowerCase()
 			);
 		} else if (
 			e.language !== "none" &&

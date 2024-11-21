@@ -1,12 +1,14 @@
-import { Inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
+import { Inject, Injectable } from "@angular/core";
 import { WordTranslation } from "../entities/translation";
-import { ITranslationService, TRANSLATION_CONFIG } from "../translation";
+import { ITranslationService, SENTENCE_CONFIG, TRANSLATION_CONFIG } from "../translation";
 
 interface APITranslationConfig {
 	endpointURL: string;
 }
-
+interface APISentenceConfig {
+	endpointURL: string;
+}
 interface TranslationResponse {
 	english_word: string;
 	primary_word: string;
@@ -21,11 +23,42 @@ interface TranslationResponse {
 	];
 }
 
+
 interface TranslateRequest {
 	words: string[];
 	primaryLanguage: string;
 	targetLanguage: string;
 }
+interface SentenceRequest {
+	word: string;
+	primaryLanguage: string;
+	replaced_word: string;
+}
+
+interface SentenceResponse {
+	word: string;
+	primaryLanguage: string;
+	targetLanguage: string;
+	model: string;
+	sentence: string;
+	replaced_word: string
+}
+
+interface SentenceRequest {
+	word: string;
+	primaryLanguage: string;
+	replaced_word: string;
+}
+
+interface SentenceResponse {
+	word: string;
+	primaryLanguage: string;
+	targetLanguage: string;
+	model: string;
+	sentence: string;
+	replaced_word: string
+}
+
 
 @Injectable()
 export class APITranslationService implements ITranslationService {
@@ -34,8 +67,9 @@ export class APITranslationService implements ITranslationService {
 
 	public constructor(
 		private http: HttpClient,
-		@Inject(TRANSLATION_CONFIG) private config: APITranslationConfig
-	) {}
+		@Inject(TRANSLATION_CONFIG) private config: APITranslationConfig,
+		@Inject(SENTENCE_CONFIG) private sentenceConfig: APISentenceConfig
+	) { }
 
 	private static requestsAreEqual(
 		request1: TranslateRequest,
@@ -63,7 +97,9 @@ export class APITranslationService implements ITranslationService {
 			return `${url}?ngsw-bypass`;
 		}
 	}
-
+	public async getSentence(word: string, primaryLanguage: string, replaced_word: string): Promise<SentenceResponse> {
+		return this.http.post<SentenceResponse>(this.sentenceConfig.endpointURL, { word, primaryLanguage, replaced_word }).toPromise()
+	}
 	public async translate(
 		englishWords: string[],
 		primaryLanguage: string,
@@ -95,7 +131,8 @@ export class APITranslationService implements ITranslationService {
 			.post<any>(this.config.endpointURL, _payload)
 			.toPromise();
 
-		let translations = response.map((tr: any) => {
+		let translations = await Promise.all(response.map(async (tr: any) => {
+			const s = await this.getSentence(tr.translations[0].primary_word, primaryLanguage, tr.translations[0].translation);
 			const _transWord = {
 				english: tr.english_word,
 				primary: tr.translations[0]?.primary_word,
@@ -104,6 +141,9 @@ export class APITranslationService implements ITranslationService {
 					original: tr.primary_word,
 					translation: tr.translation,
 					transliteration: tr.transliteration,
+					sentence: s.sentence,
+					translated_word: s.replaced_word,
+					split_sentence: this.splitSentence(s.sentence, s.replaced_word),
 					soundURL: APITranslationService.formatSoundURL(
 						tr.sound_link
 					),
@@ -111,7 +151,7 @@ export class APITranslationService implements ITranslationService {
 			};
 
 			return _transWord;
-		});
+		}));
 
 		// add any missing translations
 		lowercaseWords.forEach((w) => {
@@ -139,5 +179,21 @@ export class APITranslationService implements ITranslationService {
 		this.lastRequest = newRequest;
 		this.lastResponse = translations;
 		return translations;
+	}
+	private splitSentence(sentence: string, word: string): string[] {
+
+
+		const index = sentence.indexOf(word);
+		if (index === -1) {
+			return [sentence, "", ""];
+		}
+
+		const firstPart = sentence.substring(0, index).trim();
+		const thirdPart = sentence.substring(index + word.length).trim();
+	
+
+
+		return [firstPart,word,thirdPart]
+
 	}
 }

@@ -1,22 +1,22 @@
 import { NgModule } from "@angular/core";
-import {
-	IMAGE_RECOGNITION_SERVICE,
-	IMAGE_RECOGNITION_CONFIG,
-} from "./image-recognition";
-import { TRANSLATION_SERVICE, TRANSLATION_CONFIG } from "./translation";
-import { ANALYTICS_SERVICE, ANALYTICS_CONFIG } from "./analytics";
-import { FEEDBACK_SERVICE, FEEDBACK_CONFIG } from "./feedback";
-import { PROFILE_SERVICE, PROFILE_CONFIG } from "./profile";
 import { environment } from "../environments/environment";
-import { SessionService } from "../services/session";
 import {
-	ImageRenderingService,
 	IMAGE_RENDERING_CONFIG,
+	ImageRenderingService,
 } from "../services/image-rendering";
+import { SessionService } from "../services/session";
+import { ANALYTICS_CONFIG, ANALYTICS_SERVICE } from "./analytics";
 import {
-	EndangeredLanguageService,
 	ENDANGERED_LANGUAGE_CONFIG,
+	EndangeredLanguageService,
 } from "./endangered-language";
+import { FEEDBACK_CONFIG, FEEDBACK_SERVICE } from "./feedback";
+import {
+	IMAGE_RECOGNITION_CONFIG,
+	IMAGE_RECOGNITION_SERVICE,
+} from "./image-recognition";
+import { PROFILE_CONFIG, PROFILE_SERVICE } from "./profile";
+import { SENTENCE_CONFIG, TRANSLATION_CONFIG, TRANSLATION_SERVICE } from "./translation";
 
 @NgModule({
 	declarations: [],
@@ -47,6 +47,10 @@ import {
 		{
 			provide: TRANSLATION_CONFIG,
 			useValue: environment.services.translation.config,
+		},
+		{
+			provide: SENTENCE_CONFIG,
+			useValue: environment.services.sentence.config,
 		},
 		{
 			provide: ANALYTICS_SERVICE,

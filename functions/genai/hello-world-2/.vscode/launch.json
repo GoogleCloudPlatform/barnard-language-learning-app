@@ -1,0 +1,23 @@
+{
+    "configurations": [
+      {
+        "type": "java",
+        "name": "Main",
+        "request": "launch",
+        "mainClass": "cloudcode.helloworld.Main",
+        "projectName": "http-function"
+      },
+      {
+        "name": "Deploy Cloud Function",
+        "type": "cloudcode.cloudfunctions",
+        "request": "launch",
+        "functionName": "function-hello-world",
+        "gen": "GEN_2",
+        "entryPoint": "cloudcode.helloworld.HelloWorld",
+        "revision": "1",
+        "testInput": "",
+        "region": "us-central1",
+        "runtime": "java17"
+      }
+    ]
+}

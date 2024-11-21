@@ -5,7 +5,7 @@ options:
 steps:
   # Client
   - id: "install_client_dependencies"
-    name: node:20
+    name: node:22
     entrypoint: "npm"
     args: ["install"]
     dir: "./client"
@@ -25,7 +25,7 @@ steps:
     dir: "./client"
   - id: "configure_client"
     waitFor: ["install_client_dependencies", "download_partner_logo"]
-    name: node:14
+    name: node:22
     entrypoint: "node"
     args:
       [
@@ -44,44 +44,17 @@ steps:
     dir: "./deploy"
   - id: "build_client"
     waitFor: ["configure_client"]
-    name: node:20
+    name: node:22
     timeout: 1200s
     entrypoint: "npm"
     args: ["run", "build", "--", "--output-path=./dist", "-c production"]
     dir: "./client"
-  # Server
-  - id: "configure_server"
-    waitFor: ["download_partner_logo"]
-    name: node:20
-    entrypoint: "node"
-    args:
-      - "./configure_server.js"
-      - ${_APP_SERVICE}
-      - "../server/app.yaml"
-      - ${_APP_CACHE}
-      - ${_INDEX_CACHE}
-      - "../server/dispatch.yaml"
-      - ${_PROD_URL}
-      - ${_STAGING_URL}
-    dir: "./deploy"
-
-  - id: "deploy_server"
+  - id: "deploy_clientr"
     waitFor:
       - "build_client"
-      - "configure_server"
     name: gcr.io/cloud-builders/gcloud
     args:
       - app
       - deploy
-      - ../client/dist
+      - client/dist
       - --appyaml=./app.yaml
-    dir: "server"
-  - id: "set_dispatch"
-    waitFor:
-      - "deploy_server"
-    name: gcr.io/cloud-builders/gcloud
-    args:
-      - app
-      - deploy
-      - dispatch.yaml
-    dir: "server"

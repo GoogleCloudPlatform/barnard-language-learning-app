@@ -1,14 +1,14 @@
-import { GoogleAnalyticsService } from "../services/google/analytics";
-import { SafeSearchLikelihood } from "../services/google/image-recognition";
-import { APITranslationService } from "../services/api/translation";
-import { LocalProfileService } from "../services/local-profile";
 import { APIFeedbackService } from "../services/api/feedback";
 import { APIImageRecognitionService } from "../services/api/image-recognition";
+import { APITranslationService } from "../services/api/translation";
+import { GoogleAnalyticsService } from "../services/google/analytics";
+import { SafeSearchLikelihood } from "../services/google/image-recognition";
+import { LocalProfileService } from "../services/local-profile";
 import { params } from "./environment.prod.params";
 
 export const environment = {
 	production: true,
-	loggingEnabled: false,
+	loggingEnabled: true,
 	assets: {
 		baseUrl: params.assetsBaseUrl,
 	},
@@ -36,12 +36,12 @@ export const environment = {
 				default: params.language === "es",
 			},
 			/*{
-        code: 'hi',
-        name: 'हिन्दी',
-        file: params.assetsBaseUrl + 'locale/hi.json',
-        direction: 'ltr',
-        default: params.language === 'hi'
-      },*/
+		code: 'hi',
+		name: 'हिन्दी',
+		file: params.assetsBaseUrl + 'locale/hi.json',
+		direction: 'ltr',
+		default: params.language === 'hi'
+	  },*/
 			{
 				code: "ar",
 				name: "اَلْعَرَبِيَّةُ",
@@ -57,26 +57,26 @@ export const environment = {
 				default: params.language === "it",
 			},
 			/*{
-        code: 'pt',
-        name: 'Português',
-        file: params.assetsBaseUrl + 'assets/locale/pt.json',
-        direction: 'ltr',
-        default: params.language === 'pt'
-      },
-      {
-        code: 'ru',
-        name: 'русский',
-        file: params.assetsBaseUrl + 'assets/locale/ru.json',
-        direction: 'ltr',
-        default: params.language === 'ru'
-      },
-      {
-        code: 'zh',
-        name: '普通话',
-        file: params.assetsBaseUrl + 'assets/locale/zh.json',
-        direction: 'ltr',
-        default: params.language === 'zh'
-      }*/
+		code: 'pt',
+		name: 'Português',
+		file: params.assetsBaseUrl + 'assets/locale/pt.json',
+		direction: 'ltr',
+		default: params.language === 'pt'
+	  },
+	  {
+		code: 'ru',
+		name: 'русский',
+		file: params.assetsBaseUrl + 'assets/locale/ru.json',
+		direction: 'ltr',
+		default: params.language === 'ru'
+	  },
+	  {
+		code: 'zh',
+		name: '普通话',
+		file: params.assetsBaseUrl + 'assets/locale/zh.json',
+		direction: 'ltr',
+		default: params.language === 'zh'
+	  }*/
 		],
 	},
 	endangeredLanguage: params.endangeredLanguage,
@@ -442,13 +442,21 @@ export const environment = {
 					},
 				],
 				assetsImageURL: `${params.assetsImageURL}/`,
+				endangeredLanguageEndpoint: `${params.apiUrl}/get_region_languages`,
+				regionEndpoint: `${params.apiUrl}/get_regions`,
 			},
 		},
 		translation: {
 			type: APITranslationService,
 			config: {
-				endpointURL: `${params.apiUrl}/getTranslations`,
+				endpointURL: `${params.apiUrl}/get_translations`,
 			},
+		},
+		sentence: {
+			type: APITranslationService,
+			config: {
+				endpointURL: `${params.apiUrl}/get_sentences`
+			}
 		},
 		analytics: {
 			type: GoogleAnalyticsService,
@@ -460,7 +468,7 @@ export const environment = {
 			type: APIFeedbackService,
 			config: {
 				addWordAudioEndpointURL: `${params.apiUrl}/saveAudioSuggestions`,
-				feedbackEndpointURL: `https://cilex-woolaroo-2.uc.r.appspot.com/create_feedback/`,
+				feedbackEndpointURL: `${params.apiUrl}/create_feedback/`,
 			},
 		},
 	},

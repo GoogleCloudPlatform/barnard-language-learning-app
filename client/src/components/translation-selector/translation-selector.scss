@@ -39,6 +39,31 @@
 		display: inline-block;
 		@include text-shadow;
 	}
+	  .sentence {
+    font-size: 2rem;
+    line-height: 2rem;
+    margin-bottom: 12px;
+    position: relative;
+    display: inline-block;
+    .main-word {
+      flex: 0 1 auto;
+
+      overflow-wrap: break-word;
+      max-width: calc(200% - 300px);
+	  line-height: 2;
+      background-color: rgb(255, 162, 0);
+    }
+    .word {
+      flex: 0 1 auto;
+      overflow-wrap: break-word;
+      max-width: calc(200% - 300px);
+      .main-word {
+		line-height: 2;
+        background-color: rgb(255, 162, 0);
+      }
+    }
+  
+  }
 	.translation,
 	.transliteration {
 		display: flex;

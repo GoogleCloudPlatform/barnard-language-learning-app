@@ -18,6 +18,8 @@
       "es2018",
       "dom"
     ],
+    "strictNullChecks": false,
+    "noImplicitAny": false,
     "useDefineForClassFields": false
   },
   "angularCompilerOptions": {

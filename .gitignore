@@ -15,3 +15,6 @@
 *.swp
 /.idea
 
+client/yarn.lock
+client/yarn.lock
+client/package.json
