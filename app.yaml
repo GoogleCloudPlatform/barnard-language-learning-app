@@ -13,13 +13,13 @@
 # limitations under the License.
 
 runtime: nodejs22
-service: client
+service: default
 
 default_expiration: "360"
 
 handlers:
   - url: /woolaroo/assets/(.*)
-    static_files: assets/\1
+    static_files: ./client/dist/assets/\1
     upload: assets/(.*)
     secure: always
     http_headers:
@@ -37,7 +37,7 @@ handlers:
         style-src 'self';
 
   - url: /woolaroo/(.*\.(js|css|ico|map|json|xml|webmanifest))
-    static_files: \1
+    static_files: ./client/dist/\1
     upload: (.*\.(js|css|ico|map|json|xml|webmanifest))
     secure: always
     http_headers:
@@ -49,14 +49,14 @@ handlers:
         default-src 'none';
         object-src 'none';
         script-src 'self';
-        connect-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com https://www.googletagmanager.com/ https://woolaroo-b9v1uynn.uc.gateway.dev https://cilex-woolaroo-2.uc.r.appspot.com;
+        connect-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com https://www.googletagmanager.com/ https://woolaroo-b9v1uynn.uc.gateway.dev https://cms-dot-cilex-woolaroo-2.uc.r.appspot.com;
         font-src 'self';
         img-src 'self';
         style-src 'self';
-        media-src 'self' https://storage.googleapis.com https://www.googleapis.com https://cilex-woolaroo-2.uc.r.appspot.com;
+        media-src 'self' https://storage.googleapis.com https://www.googleapis.com https://cms-dot-cilex-woolaroo-2.uc.r.appspot.com;
 
   - url: /woolaroo/3rdpartylicenses.txt
-    static_files: 3rdpartylicenses.txt
+    static_files: ./client/dist/3rdpartylicenses.txt
     upload: 3rdpartylicenses.txt
     secure: always
     http_headers:
@@ -68,7 +68,7 @@ handlers:
         default-src 'self';
 
   - url: /woolaroo/?.*
-    static_files: index.html
+    static_files: ./client/dist/index.html
     upload: index.html
     secure: always
     expiration: 360
@@ -83,8 +83,8 @@ handlers:
         frame-src 'self';
         object-src 'none';
         script-src-elem 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.gstatic.com/ https://www.google-analytics.com https://apis.google.com;
-        script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://accounts.google.com https://www.googletagmanager.com https://www.gstatic.com https://www.google-analytics.com https://www.googleapis.com https://woolaroo-b9v1uynn.uc.gateway.dev https://cilex-woolaroo-2.uc.r.appspot.com;
-        connect-src 'self' https://www.gstatic.com https://www.google-analytics.com https://www.googleapis.com https://apis.google.com https://*.googleapis.com https://www.googletagmanager.com https://fonts.googleapis.com https://woolaroo-b9v1uynn.uc.gateway.dev https://cilex-woolaroo-2.uc.r.appspot.com;
+        script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://accounts.google.com https://www.googletagmanager.com https://www.gstatic.com https://www.google-analytics.com https://www.googleapis.com https://woolaroo-b9v1uynn.uc.gateway.dev https://cms-dot-cilex-woolaroo-2.uc.r.appspot.com;
+        connect-src 'self' https://www.gstatic.com https://www.google-analytics.com https://www.googleapis.com https://apis.google.com https://*.googleapis.com https://www.googletagmanager.com https://fonts.googleapis.com https://woolaroo-b9v1uynn.uc.gateway.dev https://cms-dot-cilex-woolaroo-2.uc.r.appspot.com;
         font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com;
         style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
         media-src 'self' https://storage.googleapis.com https://www.googleapis.com;
