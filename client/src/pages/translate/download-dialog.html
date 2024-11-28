@@ -1,0 +1,38 @@
+<mat-dialog-content>
+	<div>
+		<span
+			[innerHtml]="'Copy link to share' | translate: 'link_to_share'"
+		></span>
+	</div>
+
+	@if(processing) {
+	<div>
+		<p [innerHTML]="'Processing Image...' | translate: 'processing'"></p>
+	</div>
+	} @if (!processing) {
+	<div
+		class="link-container"
+		(click)="copyLink()"
+		onKeyPress=""
+		onKeyDown=""
+		onKeyUp=""
+	>
+		<p
+			class="mat-body-4"
+			[innerHTML]="'Click here to copy shareable link' | translate: 'shareable_link'"
+		></p>
+	</div>
+	@if(linkCopied) {
+	<div class="copied">
+		<span [innerHtml]="'Copied' | translate: 'copied'"></span>
+	</div>
+	} }
+	<button
+		mat-flat-button
+		color="accent"
+		(click)="download()"
+		class="next orange"
+	>
+		<span [innerHTML]="'Download' | translate : 'download'"></span>
+	</button>
+</mat-dialog-content>

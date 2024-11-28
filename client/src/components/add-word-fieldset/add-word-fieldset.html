@@ -1,46 +1,45 @@
-<div [formGroup]="formGroup">
-  <mat-form-field class="text" appearance="outline" [hideRequiredMarker]="true"
-                  [hintLabel]="'e.g. هتاف للترحيب' | translate:'nativeScriptHint'">
-    <mat-label [innerHTML]="'Word in native script' | translate:'wordInNativeScript'"></mat-label>
-    <input type="text" matInput name="nativeWord" formControlName="nativeWord" maxlength="100" />
-    <mat-error *ngIf="fieldHasError('nativeWord', 'required')" [innerHTML]="'Word in native script is required' | translate:'nativeWordRequired'"></mat-error>
-  </mat-form-field>
-  <mat-form-field class="text" appearance="outline" [hideRequiredMarker]="true"
-                  [hintLabel]="'e.g. \'hello\'' | translate:'englishWordHint'">
-    <mat-label [innerHTML]="'Word in English' | translate:'wordInEnglish'"></mat-label>
-    <input type="text" matInput name="englishWord" formControlName="englishWord" maxlength="100" />
-    <mat-error *ngIf="fieldHasError('englishWord', 'required')" [innerHTML]="'English word is required' | translate:'englishWordRequired'"></mat-error>
-  </mat-form-field>
-  <mat-form-field *ngIf="primaryLanguageWordAvailable" class="text" appearance="outline" [hideRequiredMarker]="true"
-                  [hintLabel]="'e.g. \'hello\'' | translate:'wordInPrimaryLanguageHint'">
-    <mat-label [innerHTML]="'Word in English' | translate:'wordInPrimaryLanguage'"></mat-label>
-    <input type="text" matInput name="word" formControlName="word" maxlength="100" />
-    <mat-error *ngIf="fieldHasError('word', 'required')" [innerHTML]="'English word is required' | translate:'wordInPrimaryLanguageRequired'"></mat-error>
-  </mat-form-field>
-  <mat-form-field class="text" appearance="outline" [hideRequiredMarker]="true"
-                  [hintLabel]="'Word in Latin alphabet (e.g. \'marhaba\')' | translate:'transliterationHint'">
-    <mat-label [innerHTML]="'Transliteration (optional)' | translate:'transliteration'"></mat-label>
-    <input type="text" matInput name="transliteration" formControlName="transliteration" />
-  </mat-form-field>
-  <div class="record" *ngIf="audioRecordingIsAvailable">
-    <label class="mat-body-1" [innerHTML]="'Record pronunciation' | translate:'recordPronunciation'"></label>
-    <button class="start" *ngIf="recordingState === recordingStateValues.Idle
-          || recordingState === recordingStateValues.Finished" (click)="onStartRecordingClick($event)">
-      <app-icon icon="record_audio" color="primary"></app-icon></button>
-    <button class="stop" *ngIf="recordingState === recordingStateValues.Recording
-          || recordingState === recordingStateValues.Playing" (click)="onStopRecordingClick($event)">
-      <app-icon icon="stop_audio" color="primary"></app-icon>
-      <app-progress-border [borderWidth]="2.5" [progress]="audioStreamProgress"></app-progress-border>
-    </button>
-    <span class="play-container" *ngIf="recordingState === recordingStateValues.Finished">
-      <button class="play" (click)="onPlayRecordingClick($event)">
-        <app-icon icon="play_recording" color="primary"></app-icon>
-      </button>
-      <span [innerHTML]="'Saved' | translate:'saved'"></span>
-    </span>
-  </div>
-  <div class="special-chars">
-    <span *ngIf="operatingSystem === operatingSystemValues.Android || operatingSystem === operatingSystemValues.iOS"
-          [innerHTML]="'Want to type special characters? Try <a href=\'${gboardUrl}\'>GBoard</a> or <a href=\'${keymanUrl}\'>Keyman</a>' | translate:'specialCharsInstructions'"></span>
+<div [formGroup]="formGroup" >
+  <div style="display: flex; flex-direction: column;">
+    <div style="display: flex; flex-direction: column;" *ngIf="!suggested">
+      <mat-form-field class="text" appearance="outline">
+        <mat-label [innerHTML]="'Current Word in native script' | translate:'wordInNativeScript'"></mat-label>
+        <input type="text" required matInput name="nativeWord" formControlName="nativeWord" maxlength="100" />
+      </mat-form-field>
+      <mat-form-field class="text" appearance="outline">
+        <mat-label [innerHTML]="'Transliteration'| translate:'transliteration'"></mat-label>
+      <input type="text" required matInput name="transliteration" formControlName="transliteration" />
+      </mat-form-field>
+      <mat-form-field class="text" appearance="outline" [hideRequiredMarker]="true"
+        [hintLabel]="'e.g. هتاف للترحيب' | translate:'nativeScriptHint'">
+        <mat-label [innerHTML]="'Suggested Word in native script (optional)' | translate:'suggestedWordOptional'"></mat-label>
+      <input type="text" matInput name="suggestedTranslation" formControlName="suggestedTranslation" maxlength="100" />
+      </mat-form-field>
+    </div>
+    <div style="display: flex; flex-direction: column;" *ngIf="suggested">
+      <mat-form-field class="text" appearance="outline"
+        [hintLabel]="'e.g. هتاف للترحيب' | translate:'nativeScriptHint'">
+      <mat-label [innerHTML]="'Suggested Word in native script'| translate:'suggestedWord'"></mat-label>
+      <input type="text" required matInput name="suggestedTranslation" formControlName="suggestedTranslation" maxlength="100" />
+      </mat-form-field>
+    </div>
+    <mat-form-field class="text" appearance="outline" [hideRequiredMarker]="true"
+    [hintLabel]="'Word in Latin alphabet (e.g. \'marhaba\')' | translate:'transliterationHint'">
+    <mat-label [innerHTML]="'Suggested Transliteration (optional)' | translate:'suggestedTransliterationOptional'"></mat-label>
+      <input type="text" matInput name="suggestedTransliteration" formControlName="suggestedTransliteration" />
+      </mat-form-field>
+    <mat-form-field class="text" appearance="outline"
+                    [hintLabel]="'e.g. \'hello\'' | translate:'englishWordHint'">
+      <mat-label [innerHTML]="'Word in English' | translate:'wordInEnglish'"></mat-label>
+      <input type="text" required matInput name="englishWord" formControlName="englishWord" maxlength="100" />
+    </mat-form-field>
+    <mat-form-field *ngIf="primaryLanguageWordAvailable" class="text" appearance="outline"
+                    [hintLabel]="'e.g. \'hello\'' | translate:'wordInPrimaryLanguageHint'">
+      <mat-label [innerHTML]="'Word in English' | translate:'wordInPrimaryLanguage'"></mat-label>
+      <input type="text" required matInput name="word" formControlName="word" maxlength="100" />
+    </mat-form-field>
+    <div class="special-chars">
+      <span *ngIf="operatingSystem === operatingSystemValues.Android || operatingSystem === operatingSystemValues.iOS"
+            [innerHTML]="'Want to type special characters? Try <a href=\'${gboardUrl}\'>GBoard</a> or <a href=\'${keymanUrl}\'>Keyman</a>' | translate:'specialCharsInstructions'"></span>
+    </div>
   </div>
 </div>

@@ -1,7 +1,11 @@
 <mat-toolbar>
-  <button class="close" (click)="onCloseClick($event)"><app-icon icon="close"></app-icon></button>
-  <span [innerHTML]="'Terms &amp; Privacy' | translate:'termsAndPrivacyTitle'"></span>
+	<button class="close" (click)="onCloseClick($event)">
+		<app-icon icon="close"></app-icon>
+	</button>
+	<span
+		[innerHTML]="'Terms &amp; Privacy' | translate:'termsAndPrivacyTitle'"
+	></span>
 </mat-toolbar>
 <div class="content">
-  <p class="mat-body-1" [innerHTML]="content"></p>
+	<p class="mat-body-1" [innerHTML]="content"></p>
 </div>

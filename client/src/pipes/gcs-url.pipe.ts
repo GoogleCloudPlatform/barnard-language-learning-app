@@ -14,25 +14,25 @@
  limitations under the License.
  */
 
-import { Pipe, PipeTransform } from '@angular/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Pipe, PipeTransform } from "@angular/core";
+import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
+import { environment } from "../environments/environment";
 
 @Pipe({
-  name: 'gcsUrl'
+	name: "gcsUrl",
 })
 export class GcsUrlPipe implements PipeTransform {
+	constructor(private sanitizer: DomSanitizer) {}
 
-  constructor(private sanitizer: DomSanitizer) { }
+	transform(url: string | null): SafeUrl {
+		if (!url) {
+			return "";
+		}
+		const output =
+			environment.services.endangeredLanguage.config.assetsImageURL.concat(
+				url
+			);
 
-  transform(url: string | null): SafeUrl {
-
-    if (!url) {
-      return '';
-    }
-    const output = url.replace(
-      'https://storage.cloud.google.com', ' https://storage.googleapis.com'
-    );
-    return this.sanitizer.bypassSecurityTrustUrl(output);
-  }
-
+		return this.sanitizer.bypassSecurityTrustUrl(output);
+	}
 }

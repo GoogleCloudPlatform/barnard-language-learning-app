@@ -1,0 +1,20 @@
+<div class="regions">
+    <app-scroll-list [currentItem]="regionIndex" (currentItemChanged)="onRegionChanged($event)" dir="ltr">
+        @for(reg of allRegions; track reg.name){
+        <ng-container>
+            <button *appScrollListItem>{{ reg.name }}</button>
+        </ng-container>
+        }
+    </app-scroll-list>
+</div>
+
+<div class="filter-button">
+    <button mat-flat-button color="accent" (click)="searchLanguage()">
+		<span [innerHTML]="'Go' | translate : 'go'"></span>
+	</button>
+</div>
+<div class="filter-button">
+    <button mat-flat-button color="warn" (click)="searchLanguage('all')" class="orange">
+		<span [innerHTML]="'View All' | translate : 'view_all'"></span>
+	</button>
+</div>

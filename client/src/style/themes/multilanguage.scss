@@ -1,22 +1,31 @@
-@use '@angular/material' as mat;
-@use 'sass:map';
-
+@use "@angular/material" as mat;
+@use "sass:map";
 $_primary-palette: (
-  800: #EA564C,
-  contrast: map.get(mat.$red-palette, contrast)
+	800: #ea564c,
+	contrast: map.get(mat.$red-palette, contrast),
 );
-
-$app-primary: mat.define-palette(map.merge(mat.$red-palette, $_primary-palette), 800);
-
+$app-primary: mat.define-palette(
+	map.merge(mat.$red-palette, $_primary-palette),
+	800
+);
 $_secondary-palette: (
-  100: #FDEEC3,
-  800: #F49131,
-  contrast: map.get(mat.$deep-orange-palette, contrast)
+	100: #fdeec3,
+	800: #f49131,
+	contrast: map.get(mat.$deep-orange-palette, contrast),
 );
-$app-secondary:  mat.define-palette(map.merge(mat.$deep-orange-palette, $_secondary-palette), 800);
-
+$app-secondary: mat.define-palette(
+	map.merge(mat.$deep-orange-palette, $_secondary-palette),
+	800
+);
 $_accent-palette: (
-  800: #33B575,
-  contrast: map.get(mat.$green-palette, contrast)
+	800: #33b575,
+	contrast: map.get(mat.$green-palette, contrast),
 );
-$app-accent:  mat.define-palette(map.merge(mat.$green-palette, $_accent-palette), 800);
+$app-accent: mat.define-palette(
+	map.merge(mat.$green-palette, $_accent-palette),
+	800
+);
+$app-warn: mat.define-palette(
+	map.merge(mat.$deep-orange-palette, $_secondary-palette),
+	500
+);

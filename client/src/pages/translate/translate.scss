@@ -1,81 +1,137 @@
-@use '@angular/material' as mat;
-@import '../../style/components';
-@import '../../style/palette';
-
+@use "@angular/material" as mat;
+@import "../../style/components";
+@import "../../style/palette";
 :host {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  position: relative;
-
-  &:before {
-    content: "";
-    flex: 0 0 auto;
-    height: 40%;
-  }
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-end;
+	position: relative;
+	overflow: hidden;
+	@media only screen and (min-width: 321px) and (max-width: 1023px) and (orientation: landscape) {
+		padding-top: 150px;
+		overflow: auto;
+	}
+	&:before {
+		content: "";
+		flex: 0 0 auto;
+		height: 40%;
+	}
 }
 
 .background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  z-index: -1;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	z-index: -1;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-attachment: fixed;
 }
 
 app-translation-selector {
-  flex: 1 1 auto;
-  min-height: 270px;
-  margin-bottom: 40px;
+	flex: 1 1 auto;
+	min-height: 270px;
+	margin-bottom: 40px;
 }
 
 .current-language,
 .change-language {
-  @include text-button;
-  flex: 0 0 auto;
-  margin-bottom: 20px;
-  color: mat.get-color-from-palette($app-inverted, '500-contrast');
-  font-size: 20px;
-
-  span {
-    vertical-align: middle;
-  }
-
-  app-icon {
-    margin-left: 8px;
-    margin-right: 8px;
-    vertical-align: middle;
-  }
+	@include text-button;
+	flex: 0 0 auto;
+	margin-bottom: 20px;
+	color: mat.get-color-from-palette($app-inverted, "500-contrast");
+	font-size: 20px;
+	span {
+		vertical-align: middle;
+	}
+	app-icon {
+		margin-left: 8px;
+		margin-right: 8px;
+		vertical-align: middle;
+	}
 }
 
 .current-language app-icon {
-  @include directional;
-  width: 30px;
-  height: 30px;
+	@include directional;
+	width: 30px;
+	height: 30px;
 }
 
 mat-toolbar {
-  .back app-icon,
-  .submit-feedback app-icon {
-    @include directional;
-  }
+	.back app-icon,
+	.submit-feedback app-icon {
+		@include directional;
+	}
 }
 
-:host-context([dir=rtl]) {
-  mat-toolbar {
-    .back {
-      right: 8px;
-    }
+:host-context([dir="rtl"]) {
+	mat-toolbar {
+		.back {
+			right: 8px;
+		}
+		.submit-feedback {
+			left: 8px;
+		}
+	}
+}
 
-    .submit-feedback {
-      left: 8px;
-    }
-  }
+.next {
+	width: calc(100vw - 80px);
+	max-width: 320px;
+	flex: 0 0 auto;
+	border: none;
+	outline: none;
+	color: #fff;
+	height: 40px;
+	border-radius: 3px;
+	font-size: 16px;
+	:hover {
+		cursor: pointer;
+	}
+}
+
+.orange {
+	background-color: #f59a41 !important;
+}
+
+.link-container {
+	background-color: lighten(mat.get-color-from-palette($app-inverted), 70);
+	width: calc(100vw - 80px);
+	max-width: 320px;
+	height: 40px;
+	border: none;
+	color: mat.get-color-from-palette($app-accent);
+	font-weight: 400;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	border-radius: 3px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	:hover {
+		cursor: pointer;
+		background-color: lighten(
+			mat.get-color-from-palette($app-inverted),
+			68
+		);
+	}
+	p {
+		font-size: 12px;
+		text-decoration: wavy;
+		margin: 0;
+		padding: 0;
+		width: 100%;
+	}
+}
+
+.copied {
+	font-size: 12px;
+	margin-bottom: 15px;
 }

@@ -1,0 +1,88 @@
+@use "@angular/material" as mat;
+@import "../../style/palette";
+@import "../../style/components";
+.filter-select,
+.filter-span,
+.filter-input {
+	display: flex;
+	flex: 0 0 auto;
+	width: calc(100vw - 80px);
+	max-width: 320px;
+	justify-content: center;
+	margin-top: 30px;
+}
+
+.filter-button {
+	display: flex;
+	flex: 0 0 auto;
+	justify-content: center;
+	margin-bottom: 40px;
+	button {
+		width: 100%;
+		max-width: 320px;
+		background-color: mat.get-color-from-palette($app-primary, "800");
+		height: 40px;
+		flex: 0 0 auto;
+	}
+}
+
+.regions {
+	justify-content: flex-start;
+	min-height: 250px;
+	// This used to have ::ng-deep on it, now it has been deprecated.
+	app-scroll-list {
+		margin-bottom: 40px;
+		li button {
+			font-size: 34px;
+			max-width: 200px;
+			text-align: center;
+		}
+	}
+}
+
+.regions {
+	flex: 1 1 auto;
+	position: relative;
+	text-align: center;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-bottom: 40px;
+	margin-top: 40px;
+	.label {
+		font-size: 18px;
+		margin-bottom: 20px;
+		display: block;
+	}
+	button {
+		@include text-button;
+		color: mat.get-color-from-palette($app-inverted, "500-contrast");
+		font-size: 30px;
+		font-weight: bold;
+		margin: 0 30px;
+		transition: color 0.3s ease-in-out;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+		-webkit-tap-highlight-color: transparent;
+	}
+	&:not(.current) {
+		button {
+			color: mat.get-color-from-palette($app-inverted, "200-contrast");
+			font-weight: normal;
+		}
+	}
+	.description {
+		display: block;
+		padding: 0 40px;
+		font-size: 22px;
+		line-height: 30px;
+		max-width: 300px;
+	}
+}
+
+.orange {
+	background-color: #f59a41 !important;
+}

@@ -1,15 +1,45 @@
 <app-logo attributionEnabled="true"></app-logo>
 <div class="intro">
-  <p class="mat-body-1"
-     [innerHTML]="'Woolaroo provides a new way to explore indigenous languages.' | translate: 'intro1'"></p>
-  <p class="mat-body-1"
-     [innerHTML]="'Using machine learning, it recognises objects from your camera and translates them.' | translate: 'intro2'"></p>
+	<p
+		class="mat-body-1"
+		[innerHTML]="'Woolaroo provides a new way to explore indigenous languages.' | translate: 'intro1'"
+	></p>
+	<p
+		class="mat-body-1"
+		[innerHTML]="'Using machine learning, it recognises objects from your camera and translates them.' | translate: 'intro2'"
+	></p>
 </div>
 <div class="messages">
-  <p class="unsupported" *ngIf="!deviceSupported">{{ 'This PWA has been designed for mobile devices, please use your mobile for the optimized experience.' | translate: 'unsupportedMessage' }}</p>
-  <p class="ios-version" *ngIf="isOldIOSVersion">{{ 'For the optimized experience please ensure your device is running the latest operating system.' | translate: 'iosVersionMessage' }}</p>
+	<p class="unsupported" *ngIf="!deviceSupported">
+		{{ 'This PWA has been designed for mobile devices, please use your
+		mobile for the optimized experience.' | translate: 'unsupportedMessage'
+		}}
+	</p>
+	<p
+		class="ios-version"
+		*ngIf="isOldIOSVersion"
+		[innerHTML]="'For the optimized experience please ensure your device is running the latest operating system.' | translate: 'iosVersionMessage'"
+	></p>
 </div>
-<button mat-flat-button color="primary" (click)="onNextClick()" class="next">
-  <span [innerHTML]="'Let’s get started' | translate:'getStarted'"></span>
+<mat-checkbox [(ngModel)]="tAndC"
+	>{{'Accept T&Cs' | translate: 't_and_c'}}
+</mat-checkbox>
+<div>
+	<button mat-button color="accent" (click)="onViewTermsClick()">
+		{{'Read our Terms and Privacy Policy' |
+		translate:'termsAndPrivacyButton'}}
+	</button>
+</div>
+<button
+	mat-flat-button
+	color="primary"
+	(click)="onNextClick()"
+	class="next"
+	[disabled]="!tAndC"
+>
+	<span [innerHTML]="'Let’s get started' | translate:'getStarted'"></span>
 </button>
-<p class="mat-body-1 feedback" [innerHTML]="'This is an educational experiment and translations have been provided by our partners.' | translate: 'introFeedback'"></p>
+<p
+	class="mat-body-1 feedback"
+	[innerHTML]="'This is an educational experiment and translations have been provided by our partners.' | translate: 'introFeedback'"
+></p>

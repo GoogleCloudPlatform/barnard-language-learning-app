@@ -52,14 +52,12 @@ export class SplashPageComponent implements AfterViewInit, OnDestroy {
     this.analyticsService.logPageView(this.router.url, 'Splash');
     this.startAnimations();
     window.addEventListener('focus', this.onWindowFocus);
+    this.setTimeoutToNavigate(this.config.logosDuration);
   }
 
   ngOnDestroy() {
     window.removeEventListener('focus', this.onWindowFocus);
-    if (this.timeout) {
-      clearTimeout(this.timeout);
-      this.timeout = null;
-    }
+    this.clearTimeout();
   }
 
   onWindowFocus = () => {
@@ -77,20 +75,14 @@ export class SplashPageComponent implements AfterViewInit, OnDestroy {
       const videoEl = this.video.nativeElement as HTMLVideoElement;
       videoEl.play();
       videoEl.currentTime = 0;
+      this.setTimeoutToSkipVideo(this.config.videoMaxStartTime);
+    } else {
+      this.skipVideo();
     }
     if (this.logoAnimation) {
       this.logoAnimation.stop();
     }
-    if (this.timeout) {
-      clearTimeout(this.timeout);
-    }
-    // if video hasn't started playing before timeout, skip it
-    this.timeout = setTimeout(() => {
-      this.videoComplete = true;
-      if (!this.logosVisible) {
-        this._showLogos();
-      }
-    }, this.config.videoMaxStartTime);
+    this.setTimeoutToShowLogos(this.config.videoMaxStartTime);
   }
 
   onVideoUpdate(ev: Event) {
@@ -105,15 +97,8 @@ export class SplashPageComponent implements AfterViewInit, OnDestroy {
 
   onVideoPlaying() {
     this.videoStarted = true;
-    if (this.timeout) {
-      clearTimeout(this.timeout);
-    }
-    this.timeout = setTimeout(
-      () => {
-        if (!this.logosVisible) {
-          this._showLogos();
-        }
-      }, this.config.maxLogosDelay);
+    this.clearTimeout();
+    this.setTimeoutToShowLogos(this.config.maxLogosDelay);
   }
 
   onVideoEnded() {
@@ -123,32 +108,68 @@ export class SplashPageComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  skipVideo() {
+    this.videoComplete = true;
+    this._showLogos();
+  }
+
   _showLogos() {
     this.logosVisible = true;
     if (this.logoAnimation) {
       this.logoAnimation.play();
     }
+    this.clearTimeout();
+    this.setTimeoutToNavigate(this.config.logosDuration);
+  }
+  
+  navigateToNextPage() {
+    this.profileService.loadProfile().then(
+      (profile) => {
+        const skipIntro = (environment.pages.termsAndPrivacy.enabled && profile.termsAgreed)
+          || (!environment.pages.termsAndPrivacy.enabled && profile.introViewed);
+        if (!skipIntro) {
+          this.router.navigateByUrl(AppRoutes.Intro);
+        } else if (!profile.language || !profile.endangeredLanguage) {
+          this.router.navigateByUrl(AppRoutes.ChangeLanguage);
+        } else {
+          loadCapturePageURL().then(
+            url => this.router.navigateByUrl(url),
+            () => this.router.navigateByUrl(AppRoutes.CaptureImage)
+          );
+        }
+      },
+      () => this.router.navigateByUrl(AppRoutes.Intro)
+    );
+  }
+
+  private setTimeoutToNavigate(duration: number) {
+    this.clearTimeout();
+    this.timeout = setTimeout(() => this.navigateToNextPage(), duration);
+  }
+
+  private setTimeoutToSkipVideo(duration: number) {
+    this.clearTimeout();
+    this.timeout = setTimeout(() => {
+      if (!this.videoStarted) {
+        this.skipVideo();
+      }
+    }, duration);
+  }
+
+  private setTimeoutToShowLogos(duration: number) {
+    this.clearTimeout();
+    this.timeout = setTimeout(() => {
+      this.videoComplete = true;
+      if (!this.logosVisible) {
+        this._showLogos();
+      }
+    }, duration);
+  }
+
+  private clearTimeout() {
     if (this.timeout) {
       clearTimeout(this.timeout);
+      this.timeout = null;
     }
-    this.timeout = setTimeout(() => {
-      this.profileService.loadProfile().then(
-        (profile) => {
-          const skipIntro = (environment.pages.termsAndPrivacy.enabled && profile.termsAgreed)
-            || (!environment.pages.termsAndPrivacy.enabled && profile.introViewed);
-          if (!skipIntro) {
-            this.router.navigateByUrl(AppRoutes.Intro);
-          } else if (!profile.language || !profile.endangeredLanguage) {
-            this.router.navigateByUrl(AppRoutes.ChangeLanguage);
-          } else {
-            loadCapturePageURL().then(
-              url => this.router.navigateByUrl(url),
-              () => this.router.navigateByUrl(AppRoutes.CaptureImage)
-            );
-          }
-        },
-        () => this.router.navigateByUrl(AppRoutes.Intro)
-      );
-    }, this.config.logosDuration);
   }
 }

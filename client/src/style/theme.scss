@@ -1,6 +1,4 @@
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 @include mat.core();
-
-@import './palette';
-
+@import "./palette";
 @include mat.all-component-themes($app-theme);

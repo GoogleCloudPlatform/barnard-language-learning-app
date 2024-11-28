@@ -1,124 +1,153 @@
-@use '@angular/material' as mat;
-@import '../../../style/palette';
-@import '../../../style/components';
-
+@use "@angular/material" as mat;
+@import "../../../style/palette";
+@import "../../../style/components";
 :host {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-  height: 100%;
-  color: mat.get-color-from-palette($app-inverted, '500-contrast');
-  overflow: hidden;
-  position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	box-sizing: border-box;
+	height: 100%;
+	color: mat.get-color-from-palette($app-inverted, "500-contrast");
+	overflow: hidden;
+	position: relative;
 }
 
-app-camera-preview {
-  width: 100%;
-  height: 100%;
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 0;
-  background-color: black;
-  // This had ::ng-deep on it but cause compiler issues due to deprecation
-  video {
-    filter: brightness(0.5) blur(10px);
-    width: calc(100vw + 20px);
-    height: calc(100vh + 20px);
-  }
-}
-
-.ui-language,
-.endangered-language {
-  flex: 1 1 auto;
-  position: relative;
-  text-align: center;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 40px;
-
-  .label {
-    font-size: 18px;
-    margin-bottom: 20px;
-    display: block;
-  }
-
-
-  button {
-    @include text-button;
-    color: mat.get-color-from-palette($app-inverted, '500-contrast');
-    font-size: 30px;
-    font-weight: bold;
-    margin: 0 30px;
-    transition: color 0.3s ease-in-out;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  &:not(.current) {
-    button {
-      color: mat.get-color-from-palette($app-inverted, '200-contrast');
-      font-weight: normal;
-    }
-  }
-
-
-
-  .description {
-    display: block;
-    padding: 0 40px;
-    font-size: 22px;
-    line-height: 30px;
-    max-width: 300px;
-  }
-}
-
-.ui-language {
-  margin-top: 40px;
-  justify-content: center;
-}
-
-.endangered-language {
-  justify-content: flex-start;
-  min-height: 250px;
-  // This used to have ::ng-deep on it, now it has been deprecated.
-  app-scroll-list {
-    margin-bottom: 40px;
-
-    li button {
-      font-size: 34px;
-      max-width: 200px;
-      text-align: center;
-    }
-  }
-}
-
-.close {
-  @include icon-button;
-  color: mat.get-color-from-palette($app-inverted, '500-contrast');
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 36px;
-  height: 36px;
-
-  app-icon {
-    width: 24px;
-    height: 24px;
-  }
-}
-
-.next {
-  width: calc(100vw - 80px);
-  max-width: 320px;
-  margin-bottom: 40px;
-  flex: 0 0 auto;
+.change-language {
+	height: 100%;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	box-sizing: border-box;
+	@media only screen and (min-width: 321px) and (max-width: 1023px) and (orientation: landscape) {
+		overflow: scroll;
+	}
+	app-camera-preview {
+		width: 100%;
+		height: 100%;
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 0;
+		background-color: black;
+		// This had ::ng-deep on it but cause compiler issues due to deprecation
+		video {
+			filter: brightness(0.5) blur(10px);
+			width: calc(100vw + 20px);
+			height: calc(100vh + 20px);
+		}
+	}
+	.language-filter {
+		flex: 1 1 auto;
+		position: relative;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		margin-top: 40px;
+		@include text-shadow;
+	}
+	.background {
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		z-index: -1;
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-attachment: fixed;
+	}
+	.ui-language,
+	.endangered-language {
+		flex: 1 1 auto;
+		position: relative;
+		text-align: center;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin-bottom: 40px;
+		@include text-shadow;
+		.label {
+			font-size: 18px;
+			margin-bottom: 20px;
+			display: block;
+		}
+		button {
+			@include text-button;
+			color: mat.get-color-from-palette($app-inverted, "500-contrast");
+			font-size: 30px;
+			font-weight: bold;
+			margin: 0 30px;
+			transition: color 0.3s ease-in-out;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+			-webkit-tap-highlight-color: transparent;
+		}
+		&:not(.current) {
+			button {
+				color: mat.get-color-from-palette(
+					$app-inverted,
+					"200-contrast"
+				);
+				font-weight: normal;
+			}
+		}
+		.description {
+			display: block;
+			padding: 0 40px;
+			font-size: 22px;
+			line-height: 30px;
+			max-width: 300px;
+		}
+	}
+	.ui-language {
+		margin-top: 40px;
+		justify-content: center;
+	}
+	.endangered-language {
+		justify-content: flex-start;
+		min-height: 300px;
+		app-scroll-list {
+			margin-bottom: 40px;
+			li button {
+				font-size: 34px;
+				max-width: 200px;
+				text-align: center;
+			}
+		}
+	}
+	.close {
+		@include icon-button;
+		color: mat.get-color-from-palette($app-inverted, "500-contrast");
+		position: absolute;
+		top: 8px;
+		right: 8px;
+		width: 36px;
+		height: 36px;
+		app-icon {
+			width: 24px;
+			height: 24px;
+			padding: 5px;
+			border-radius: 50%;
+			background-color: rgba(0, 0, 0, 0.3);
+		}
+	}
+	.next {
+		width: calc(100vw - 80px);
+		max-width: 320px;
+		margin-bottom: 40px;
+		flex: 0 0 auto;
+	}
+	.orange {
+		background-color: #f59a41 !important;
+	}
 }

@@ -25,8 +25,8 @@
       </ul>
       <mat-error *ngIf="feedbackForm.controls['types'].hasError('required')" [innerHTML]="'No feedback type selected' | translate:'feedbackTypeRequired'"></mat-error>
     </div>
-    <app-add-word-fieldset [formGroup]="feedbackForm"></app-add-word-fieldset>
-    <mat-form-field class="textarea" appearance="outline">
+    <app-add-word-fieldset [formGroup]="feedbackForm" [includeRecording]="false" [suggested]="false"></app-add-word-fieldset>
+    <mat-form-field class="textarea" appearance="outline" style="display: block;">
       <mat-label [innerHTML]="'Enter feedback' | translate:'enterFeedback'"></mat-label>
       <textarea matInput name="content" required formControlName="content"></textarea>
       <mat-error *ngIf="feedbackForm.controls['content'].hasError('required')" [innerHTML]="'Feedback required' | translate:'feedbackRequired'"></mat-error>

@@ -10,7 +10,9 @@ const validation = require('./validation');
 
 ffmpeg.setFfmpegPath(ffmpegPath);
 const visionClient = new vision.v1p3beta1.ImageAnnotatorClient();
-const datastore = new Datastore();
+const datastore = new Datastore({
+    databaseId: 'woolaroo' 
+});
 
 async function getGoogleAPIAuthentication() {
     const auth = new google.auth.GoogleAuth({ scopes: ['https://www.googleapis.com/auth/drive'] });
@@ -106,31 +108,7 @@ async function saveFeedback(spreadsheetId, sheetTitle, data) {
     });
 }
 
-exports.addSuggestions = async (req, res) => {
-    addSecurityHeaders(res);
-    return cors(req, res, async () => {
-        if (!validation.isTargetLanguage(req.body.native_language)) {
-            res.status(400).send("Invalid target language");
-            return;
-        } else if(!validation.isPrimaryLanguage(req.body.language)) {
-            res.status(400).send("Invalid primary language");
-            return;
-        }
-        await saveFeedback(process.env['SUGGESTIONS_SPREADSHEET'], req.body.native_language, [
-            req.body.language || '',
-            req.body.native_language || '',
-            req.body.english_word || '',
-            req.body.primary_word || '',
-            req.body.translation || '',
-            req.body.transliteration || '',
-            req.body.sound_link || '',
-            new Date()
-        ]);
-        res.status(200).send("Translation suggestions saved.");
-    });
-};
-
-exports.addFeedback = async (req, res) => {
+exports.create_feedback = async (req, res) => {
     addSecurityHeaders(res);
     return cors(req, res, async () => {
         if (!validation.isTargetLanguage(req.body.native_language)) {
@@ -147,7 +125,8 @@ exports.addFeedback = async (req, res) => {
             req.body.primary_word || '',
             req.body.translation || '',
             req.body.transliteration || '',
-            req.body.sound_link || '',
+            req.body.suggested_translation || '',
+            req.body.suggested_transliteration || '',
             req.body.types ? req.body.types.join(', ') : '',
             req.body.content || '',
             new Date()
@@ -200,6 +179,55 @@ function createTranslationResponseForApp(data, primary_language, target_language
         english_word: data.word,
         primary_word: primaryTranslation ? primaryTranslation.translation || '' : '',
         translation: targetTranslation ? targetTranslation.translation || '' : '',
+        transliteration: targetTranslation ? targetTranslation.transliteration || '' : '',
+        sound_link: targetTranslation ? targetTranslation.sound_link || '' : ''
+    };
+}
+
+exports.mokeTranslations = async (req, res) => {
+    addSecurityHeaders(res);
+    return cors(req, res, async () => {
+        const english_words = req.body.english_words;
+        const primary_language = req.body.primary_language;
+        const target_language = req.body.target_language;
+        if (!validation.isTargetLanguage(target_language)) {
+            res.status(400).send("Invalid target language");
+            return;
+        } else if(!validation.isPrimaryLanguage(primary_language)) {
+            res.status(400).send("Invalid primary language");
+            return;
+        } else if(!english_words) {
+            res.status(400).send("No words found");
+            return;
+        }
+        for(const w of english_words) {
+            if(validation.containsHTML(w)) {
+                res.status(400).send("Words cannot contain HTML tags");
+                return;
+            }
+        }
+        const promises = english_words.map(async english_word => {
+            const wordKey = datastore.key(['Translation', english_word]);
+            const translations = await datastore.get(wordKey);
+            return { word: english_word, translations: translations && translations.length > 0 ? translations[0] : null };
+        });
+        Promise.all(promises).then(docs => {
+            const translations = docs.map(x => createTranslationResponseForApp(x, primary_language, target_language));
+            res.status(200).send(translations);
+        }).catch(function(error) {
+            console.log("Internal server error", error);
+            res.status(500).send(error)
+        });
+    });
+};
+
+function createTranslationResponseForApp(data, primary_language, target_language) {
+    const primaryTranslation = data && data.translations ? data.translations[primary_language] : null;
+    const targetTranslation = data && data.translations ? data.translations[target_language] : null;
+    return {
+        english_word: data.word,
+        primary_word: data.word,
+        translation: target_language+"-"+data.word,
         transliteration: targetTranslation ? targetTranslation.transliteration || '' : '',
         sound_link: targetTranslation ? targetTranslation.sound_link || '' : ''
     };

@@ -1,37 +1,74 @@
 <div class="translation-container" [class.hidden]="!selectedWordVisible"
-  *ngIf="selectedWord && selectedWord.translation">
-  <div class="transliteration" *ngIf="selectedWord.transliteration">
-    <span class="word">{{ selectedWord.transliteration }}</span>
-    <span class="share">
-      <button *ngIf="selectedWord.transliteration" (click)="onShareClick()">
-        <app-icon icon="share" shadow="true"></app-icon>
-      </button>
-    </span>
-  </div>
-  <div class="translation" *ngIf="selectedWord.translation !== selectedWord.transliteration">
-    <span class="word">{{ selectedWord.translation }}</span>
-    <span class="share">
-      <button *ngIf="!selectedWord.transliteration" (click)="onShareClick()">
-        <app-icon icon="share" shadow="true"></app-icon>
-      </button>
-    </span>
-  </div>
-  <button *ngIf="selectedWord.soundURL" class="play-audio" (click)="onPlayAudioClick()">
-    <app-icon icon="play_audio" shadow="true" *ngIf="audioState === audioStateValues.Stopped"></app-icon>
-    <mat-progress-spinner [diameter]="45" mode="indeterminate" class="loading"
-      *ngIf="audioState !== audioStateValues.Stopped"></mat-progress-spinner>
-  </button>
-  <audio #audioPlayer [src]="selectedWord.soundURL | gcsUrl" preload="none" (play)="onAudioPlaying()"
-    (ended)="onAudioStopped()" (pause)="onAudioStopped()"></audio>
+	*ngIf="selectedWord && displayTranslation?.translation">
+	<div class="transliteration" *ngIf="displayTranslation?.transliteration">
+		<span class="add">
+			<button *ngIf="displayTranslation?.transliteration" (click)="onAddTranslationClick()">
+				<app-icon icon="add" shadow="true"></app-icon>
+			</button>
+		</span>
+		<span class="word">{{ displayTranslation?.transliteration }}</span>
+		<span class="share">
+			<button *ngIf="displayTranslation?.transliteration" (click)="onShareClick()">
+				<app-icon icon="share" shadow="true"></app-icon>
+			</button>
+		</span>
+
+	</div>
+	<div class="translation">
+		<div class="regions">
+			<app-scroll-list [currentItem]="translationIndex"
+				(currentItemChanged)="onTranslationSelectionChange($event)" dir="ltr">
+				@for(_trans of selectedWord.translations; track trackTrans){
+				<ng-container>
+					<button *appScrollListItem>{{ _trans.translation }}</button>
+				</ng-container>Y
+				}
+			</app-scroll-list>
+			<span></span>
+			<div class="sentence"
+				*ngIf="selectedWord.translations[0].sentence !== selectedWord.translations[0].transliteration && selectedWord.translations[0].sentence !=null">
+				<span>{{ selectedWord.translations[0].split_sentence[0] }}&nbsp;</span>
+				<span class="main-word">{{ selectedWord.translations[0].split_sentence[1] }}</span>
+				<span>&nbsp;{{ selectedWord.translations[0].split_sentence[2] }}</span>
+				<!-- <span *ngFor="let parts of selectedWord.translations[0].split_sentence; let i = index">
+					<span *ngFor="let word of selectedWord.translations[0].sentence.split(' '); let i = index">
+						<span
+							[ngClass]="{ 'main-word': word.replace('.','').replace(',','').trim() == selectedWord.translations[0].translated_word.trim()}">{{word.replace('.','')}}</span>
+						<span
+							*ngIf="i < selectedWord.translations[0].sentence.split(' ').length - 1">&nbsp;</span></span>
+					  
+
+				</span> -->
+
+			</div>
+		</div>
+
+
+		<span></span>
+		<span class="share">
+			<button *ngIf="!displayTranslation?.transliteration" (click)="onShareClick()">
+				<app-icon icon="share" shadow="true"></app-icon>
+			</button>
+		</span>
+	</div>
+	<button class="play-audio" *ngIf="displayTranslation?.soundURL" (click)="onPlayAudioClick()">
+		<app-icon icon="play_audio" shadow="true" *ngIf="audioState === audioStateValues.Stopped"></app-icon>
+		<mat-progress-spinner [diameter]="45" mode="indeterminate" class="loading"
+			*ngIf="audioState !== audioStateValues.Stopped"></mat-progress-spinner>
+	</button>
+	<audio #audioPlayer [src]="displayTranslation?.soundURL | gcsUrl" preload="none" (play)="onAudioPlaying()"
+		(ended)="onAudioStopped()" (pause)="onAudioStopped()"></audio>
 </div>
+
 <div class="translation-not-found" [class.hidden]="!selectedWordVisible"
-  *ngIf="selectedWord && !selectedWord.translation">
-  <div class="message" (click)="onAddTranslationClick()">
-    <app-icon icon="add" shadow="true"></app-icon>
-    <span [innerHTML]="'Add word' | translate:'addWord'"></span>
-  </div>
+	*ngIf="selectedWord && !displayTranslation?.translation">
+	<div class="message" (click)="onAddTranslationClick()" (keydown)="onKeyDown($event)">
+		<app-icon icon="add" shadow="true"></app-icon>
+		<span [innerHTML]="'Add word' | translate:'addWord'"></span>
+	</div>
 </div>
-<app-selection-line [class.hidden]="!selectedWordVisible" [targetPosition]="lineTargetPosition"></app-selection-line>
+<app-selection-line [class.hidden]="!selectedWordVisible" [targetPosition]="lineTargetPosition">
+</app-selection-line>
 <app-word-scroll-list [translations]="translations" [defaultSelectedWordIndex]="defaultSelectedWordIndex"
-  (selectedWordChanged)="onSelectedWordChanged($event)" (targetPositionChanged)="onTargetPositionChanged($event)">
+	(selectedWordChanged)="onSelectedWordChanged($event)" (targetPositionChanged)="onTargetPositionChanged($event)">
 </app-word-scroll-list>

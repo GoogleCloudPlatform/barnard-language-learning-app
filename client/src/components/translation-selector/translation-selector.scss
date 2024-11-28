@@ -1,162 +1,256 @@
-@use '@angular/material' as mat;
-@use 'sass:map';
-@import '../../style/components';
-@import '../../style/palette';
-
+@use "@angular/material" as mat;
+@use "sass:map";
+@import "../../style/components";
+@import "../../style/palette";
 :host {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  text-shadow: 1px 1px 2px mat.get-color-from-palette(map.get($app-theme, shadow), '500');
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	text-shadow: 1px 1px 2px
+		mat.get-color-from-palette(map.get($app-theme, shadow), "500");
 }
 
 .translation-container {
-  flex: 0 0 auto;
-  color: mat.get-color-from-palette($app-inverted, '500-contrast');
-  text-align: center;
-  margin-bottom: 15px;
-  min-height: 160px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-
-  .transliteration {
-    font-size: 2rem;
-    line-height: 2rem;
-    position: relative;
-    display: inline-block;
-    margin-bottom: 2px;
-    font-weight: 500;
-    letter-spacing: 0.2rem;
-    max-width: 75%;
-  }
-
-  .translation {
+	flex: 0 0 auto;
+	color: mat.get-color-from-palette($app-inverted, "500-contrast");
+	text-align: center;
+	margin-bottom: 15px;
+	min-height: 160px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	.transliteration {
+		font-size: 2rem;
+		line-height: 2rem;
+		position: relative;
+		display: inline-block;
+		margin-bottom: 2px;
+		font-weight: 500;
+		letter-spacing: 0.2rem;
+		max-width: 75%;
+		@include text-shadow;
+	}
+	.translation {
+		font-size: 2rem;
+		line-height: 2rem;
+		margin-bottom: 12px;
+		position: relative;
+		display: inline-block;
+		@include text-shadow;
+	}
+	  .sentence {
     font-size: 2rem;
     line-height: 2rem;
     margin-bottom: 12px;
     position: relative;
     display: inline-block;
-  }
+    .main-word {
+      flex: 0 1 auto;
 
-  .translation,
-  .transliteration {
-    display: flex;
-    max-width: 100%;
-
-    &:before {
-      content: "";
+      overflow-wrap: break-word;
+      max-width: calc(200% - 300px);
+	  line-height: 2;
+      background-color: rgb(255, 162, 0);
     }
-
     .word {
       flex: 0 1 auto;
       overflow-wrap: break-word;
-      max-width: calc(100% - 150px);
-    }
-
-    &:before,
-    .share {
-      flex: 1 1 60px;
-      padding-left: 20px;
-      padding-right: 20px;
-      box-sizing: border-box;
-    }
-
-    .share {
-      flex: 1 1 60px;
-      padding-left: 20px;
-      padding-right: 20px;
-      text-align: left;
-      box-sizing: border-box;
-
-      button {
-        @include icon-button;
-        color: mat.get-color-from-palette($app-inverted, '500-contrast');
-        width: 32px;
-        height: 32px;
+      max-width: calc(200% - 300px);
+      .main-word {
+		line-height: 2;
+        background-color: rgb(255, 162, 0);
       }
     }
+  
   }
-
-  .play-audio,
-  .record-audio {
-    @include icon-button;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    color: mat.get-color-from-palette($app-inverted, '500-contrast');
-    width: 45px;
-    height: 45px;
-
-    .loading {
-      circle {
-        stroke: mat.get-color-from-palette($app-inverted, '500-contrast');
-      }
-
-    }
-  }
+	.translation,
+	.transliteration {
+		display: flex;
+		max-width: 100%;
+		&:before {
+			content: "";
+		}
+		.word {
+			flex: 0 1 auto;
+			overflow-wrap: break-word;
+			max-width: calc(100% - 150px);
+		}
+		&:before,
+		.share {
+			flex: 1 1 60px;
+			padding-left: 20px;
+			padding-right: 20px;
+			box-sizing: border-box;
+		}
+		.share {
+			display: flex;
+			flex: 1 1 60px;
+			padding-left: 20px;
+			padding-right: 20px;
+			text-align: left;
+			box-sizing: border-box;
+			align-items: center;
+			button {
+				@include icon-button;
+				background-color: rgba(0, 0, 0, 0.1);
+				border-radius: 50%;
+				color: mat.get-color-from-palette(
+					$app-inverted,
+					"500-contrast"
+				);
+				width: 32px;
+				height: 32px;
+			}
+		}
+		.add {
+			margin-right: 20px;
+			margin-left: -30px;
+			button {
+				@include icon-button;
+				background-color: rgba(0, 0, 0, 0.1);
+				border-radius: 50%;
+				color: mat.get-color-from-palette(
+					$app-inverted,
+					"500-contrast"
+				);
+				width: 32px;
+				height: 32px;
+			}
+		}
+	}
+	.play-audio,
+	.record-audio {
+		@include icon-button;
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		color: mat.get-color-from-palette($app-inverted, "500-contrast");
+		width: 45px;
+		height: 45px;
+		.loading {
+			circle {
+				stroke: mat.get-color-from-palette(
+					$app-inverted,
+					"500-contrast"
+				);
+			}
+		}
+	}
+	.regions {
+		justify-content: flex-start;
+		// min-height: 100px;
+		// This used to have ::ng-deep on it, now it has been deprecated.
+		app-scroll-list {
+			width: 100%;
+			li button {
+				font-size: 24px;
+				max-width: 200px;
+				text-align: center;
+			}
+		}
+	}
+	.regions {
+		flex: 1 1 auto;
+		position: relative;
+		text-align: center;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin-top: 20px;
+		.label {
+			font-size: 18px;
+			margin-bottom: 20px;
+			display: block;
+		}
+		button {
+			@include text-button;
+			color: mat.get-color-from-palette($app-inverted, "500-contrast");
+			font-size: 30px;
+			font-weight: bold;
+			margin: 0 30px;
+			transition: color 0.3s ease-in-out;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+			-webkit-tap-highlight-color: transparent;
+		}
+		&:not(.current) {
+			button {
+				color: mat.get-color-from-palette(
+					$app-inverted,
+					"200-contrast"
+				);
+				font-weight: normal;
+			}
+		}
+		.description {
+			display: block;
+			padding: 0 40px;
+			font-size: 22px;
+			line-height: 30px;
+			max-width: 300px;
+		}
+	}
 }
 
 .translation-not-found {
-  flex: 0 0 auto;
-  color: mat.get-color-from-palette($app-inverted, '500-contrast');
-  text-align: center;
-  margin-bottom: 15px;
-  width: 100%;
-
-  .message {
-    margin-bottom: 20px;
-    font-size: 3rem;
-    line-height: 3rem;
-    cursor: pointer;
-
-    span {
-      vertical-align: middle;
-    }
-
-    app-icon {
-      width: 40px;
-      height: 40px;
-      margin-right: 10px;
-      vertical-align: middle;
-    }
-  }
-
-  .add-translation {
-    @include icon-button;
-    color: mat.get-color-from-palette($app-inverted, '500-contrast');
-    width: 45px;
-    height: 45px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-  }
+	flex: 0 0 auto;
+	color: mat.get-color-from-palette($app-inverted, "500-contrast");
+	text-align: center;
+	margin-bottom: 15px;
+	width: 100%;
+	.message {
+		margin-bottom: 20px;
+		font-size: 3rem;
+		line-height: 3rem;
+		cursor: pointer;
+		span {
+			vertical-align: middle;
+			@include text-shadow;
+		}
+		app-icon {
+			width: 40px;
+			height: 40px;
+			margin-right: 10px;
+			vertical-align: middle;
+		}
+	}
+	.add-translation {
+		@include icon-button;
+		color: mat.get-color-from-palette($app-inverted, "500-contrast");
+		width: 45px;
+		height: 45px;
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		background-color: rgba(0, 0, 0, 0.1);
+	}
 }
 
 app-selection-line {
-  height: 125px;
-  flex: 0 1 auto;
+	height: 125px;
+	flex: 0 1 auto;
 }
 
 .translation-container,
-.translation-not-found,
+.add-word,
 app-selection-line {
-  transition: opacity 0.3s ease-in-out;
-
-  &.hidden {
-    opacity: 0;
-  }
+	transition: opacity 0.3s ease-in-out;
+	&.hidden {
+		opacity: 0;
+	}
 }
 
 app-word-scroll-list {
-  flex: 0 0 auto;
-  margin-top: 15px;
+	flex: 0 0 auto;
+	margin-top: 15px;
 }
 
-
-:host-context([dir=rtl]) {
-  .translation-container .share {
-    text-align: right;
-  }
+:host-context([dir="rtl"]) {
+	.translation-container .share {
+		text-align: right;
+	}
 }

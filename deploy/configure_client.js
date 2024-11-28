@@ -50,7 +50,8 @@ const configParams = {
     language: LANGUAGE,
     endangeredLanguage: ENDANGERED_LANGUAGE,
     termsAndPrivacyEnabled: !!TERMS_AND_CONDITIONS,
-    termsAndPrivacyContent: TERMS_AND_CONDITIONS
+    termsAndPrivacyContent: TERMS_AND_CONDITIONS,
+    assetsImageURL: "https://storage.googleapis.com/woolaroo_media"
 };
 
 const configFilePath = path.join(process.cwd(), CONFIG_FILE_PATH);

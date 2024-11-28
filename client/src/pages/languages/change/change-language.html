@@ -1,22 +1,70 @@
-<app-camera-preview></app-camera-preview>
-<button (click)="onCloseClick()" class="close" aria-label="Close"><app-icon icon="close"></app-icon></button>
-<div class="ui-language">
-  <span class="label" [innerHTML]="'I speak' | translate:'uiLanguageLabel'"></span>
-  <app-scroll-list [currentItem]="currentUILanguageIndex" (currentItemChanged)="onUILanguageChanged($event)" dir="ltr">
-    <ng-container *ngFor="let lang of uiLanguages">
-      <button *appScrollListItem>{{ lang.name }}</button>
-    </ng-container>
-  </app-scroll-list>
+<div class="change-language">
+	@if(imageUrl) {
+	<div class="background" [style.backgroundImage]="imageUrl | styleUrl"></div>
+	} @if(!imageUrl) {
+	<app-camera-preview></app-camera-preview>
+	}
+
+	<button (click)="onCloseClick()" class="close" aria-label="Close">
+		<app-icon icon="close"></app-icon>
+	</button>
+	<div class="ui-language">
+		<span
+			class="label"
+			[innerHTML]="'I speak' | translate:'uiLanguageLabel'"
+		></span>
+		<app-scroll-list
+			[currentItem]="currentUILanguageIndex"
+			(currentItemChanged)="onUILanguageChanged($event)"
+			dir="ltr"
+		>
+			<ng-container *ngFor="let lang of uiLanguages">
+				<button *appScrollListItem>{{ lang.name }}</button>
+			</ng-container>
+		</app-scroll-list>
+	</div>
+
+	@if(!showResults){
+	<div class="language-filter">
+		<span
+			class="label"
+			[innerHTML]="'I\'d like to explore a language.' | translate:'language_by_region'"
+		></span>
+		<app-language-filter
+			(onSearchLanguage)="onSearchLanguage($event)"
+			[allRegions]="allRegions"
+		></app-language-filter>
+	</div>
+	} @if(showResults){
+	<div class="endangered-language">
+		<span
+			class="label"
+			[innerHTML]="'I\'d like to explore the language of' | translate:'endangeredLanguageLabel'"
+		></span>
+		<app-scroll-list
+			[currentItem]="currentEndangeredLanguageIndex"
+			(currentItemChanged)="onEndangeredLanguageChanged($event)"
+			dir="ltr"
+		>
+			<ng-container *ngFor="let lang of endangeredLanguages">
+				<button *appScrollListItem>{{ lang.name }}</button>
+			</ng-container>
+		</app-scroll-list>
+		<span
+			class="description"
+			[innerHTML]="'Description'|translate:currentEndangeredLanguageCode"
+		></span>
+	</div>
+	<button mat-flat-button color="accent" (click)="onNextClick()" class="next">
+		<span [innerHTML]="'Go' | translate:'go'"></span>
+	</button>
+	<button
+		mat-flat-button
+		color="warn"
+		(click)="showResults = false"
+		class="next orange"
+	>
+		<span [innerHTML]="'View by region'| translate:'view_by_region'"></span>
+	</button>
+	}
 </div>
-<div class="endangered-language">
-  <span class="label" [innerHTML]="'I\'d like to explore the language of' | translate:'endangeredLanguageLabel'"></span>
-  <app-scroll-list [currentItem]="currentEndangeredLanguageIndex" (currentItemChanged)="onEndangeredLanguageChanged($event)" dir="ltr">
-    <ng-container *ngFor="let lang of endangeredLanguages">
-      <button *appScrollListItem>{{ lang.name }}</button>
-    </ng-container>
-  </app-scroll-list>
-  <span class="description" [innerHTML]="'Description'|translate:currentEndangeredLanguageDescriptionKey"></span>
-</div>
-<button mat-flat-button color="accent" (click)="onNextClick()" class="next">
-  <span [innerHTML]="'Go' | translate:'go'"></span>
-</button>

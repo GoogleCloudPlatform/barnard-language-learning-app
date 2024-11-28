@@ -1,0 +1,60 @@
+timeout: 1200s
+options:
+  machineType: "E2_HIGHCPU_8"
+  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
+steps:
+  # Client
+  - id: "install_client_dependencies"
+    name: node:22
+    entrypoint: "npm"
+    args: ["install"]
+    dir: "./client"
+  - id: "download_partner_logo"
+    name: gcr.io/cloud-builders/gsutil
+    waitFor: ["-"]
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        if [ "${_PARTNER_LOGO_URL}" != "" ]
+        then
+          gsutil cp ${_PARTNER_LOGO_URL} ./src/assets/img/partner_logo.png
+        else
+          true
+        fi
+    dir: "./client"
+  - id: "configure_client"
+    waitFor: ["install_client_dependencies", "download_partner_logo"]
+    name: node:22
+    entrypoint: "node"
+    args:
+      [
+        "./configure_client.js",
+        "../client/src/environments/environment.prod.params.ts",
+        "${_API_URL}",
+        "${_APP_URL}",
+        "${_GOOGLE_TRACKER_ID}",
+        "${_LANGUAGE}",
+        "${_ENDANGERED_LANGUAGE}",
+        "${_TERMS_AND_CONDITIONS}",
+        "/assets/img/partner_logo.png",
+        "../client/src/style/theme-config.scss",
+        "${_THEME}",
+      ]
+    dir: "./deploy"
+  - id: "build_client"
+    waitFor: ["configure_client"]
+    name: node:22
+    timeout: 1200s
+    entrypoint: "npm"
+    args: ["run", "build", "--", "--output-path=./dist", "-c production"]
+    dir: "./client"
+  - id: "deploy_clientr"
+    waitFor:
+      - "build_client"
+    name: gcr.io/cloud-builders/gcloud
+    args:
+      - app
+      - deploy
+      - client/dist
+      - --appyaml=./app.yaml

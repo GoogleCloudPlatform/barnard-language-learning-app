@@ -1,37 +1,28 @@
-@use '@angular/material' as mat;
-@import '../../style/components';
-@import '../../style/palette';
-
-
+@use "@angular/material" as mat;
+@import "../../style/components";
+@import "../../style/palette";
 :host {
-  display: block;
-  position: relative;
-  overflow: hidden;
-
-
-
-  > ul {
-    display: flex;
-    flex-direction: row;
-    margin: 0;
-    padding: 0;
+    display: block;
     position: relative;
-    list-style-type: none;
-    width: 100%;
-
-
-
-    > li {
-      margin: 0;
-      padding: 0;
-      cursor: pointer;
-      flex: 0 0 auto;
-
-
+    overflow: hidden;
+    >ul {
+        display: flex;
+        flex-direction: row;
+        margin: 0;
+        padding: 0;
+        position: relative;
+        list-style-type: none;
+        width: 100%;
+        -webkit-overflow-scrolling: touch;
+        >li {
+            margin: 0 10px 0 0;
+            padding: 0;
+            cursor: pointer;
+            flex: 0 0 auto;
+            border-radius: 5px;
+            button {
+                @include text-shadow;
+            }
+        }
     }
-
-  }
-
-
-
 }

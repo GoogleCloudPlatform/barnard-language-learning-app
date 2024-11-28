@@ -1,23 +1,19 @@
 <div class="background" [style.backgroundImage]="backgroundImageURL | styleUrl"></div>
 <app-toolbar>
-  <button class="back" (click)="onBackClick()" slot="start">
-    <app-icon icon="arrow_back"></app-icon>
-  </button>
-  <button (click)="onSubmitFeedbackClick()" class="submit-feedback" slot="end">
-    <app-icon icon="add_feedback"></app-icon>
-  </button>
+    <button class="back" (click)="onBackClick()" slot="start">
+		<app-icon icon="arrow_back"></app-icon>
+	</button>
+    <button (click)="onSubmitFeedbackClick()" class="submit-feedback" slot="end">
+		<app-icon icon="add_feedback"></app-icon>
+	</button>
 </app-toolbar>
-<app-translation-selector [translations]="translations"
-                          [defaultSelectedWordIndex]="defaultSelectedWordIndex"
-                          (addRecording)="onAddRecording($event)"
-                          (addTranslation)="onAddTranslation($event)"
-                          (wordShared)="onWordShared($event)"
-                          (selectedWordChanged)="onSelectedWordChanged($event)"
-                          (manualEntrySelected)="onManualEntrySelected()">
+<app-translation-selector [translations]="translations" [defaultSelectedWordIndex]="defaultSelectedWordIndex" (addRecording)="onAddRecording($event)" (addTranslation)="onAddTranslation($event)" (wordShared)="onWordShared($event)" (selectedWordChanged)="onSelectedWordChanged($event)"
+    (manualEntrySelected)="onManualEntrySelected()">
 </app-translation-selector>
 <button class="current-language" (click)="onViewLanguageClick()">
-  <span>{{currentLanguage}}</span> <app-icon icon="read_more"></app-icon>
+	<span>{{currentLanguage}}</span> <app-icon icon="read_more"></app-icon>
 </button>
 <button (click)="onSwitchLanguageClick()" class="change-language">
-  <span [innerHTML]="'Switch language'|translate:'switchLanguage'"></span> <app-icon icon="language"></app-icon>
+	<span [innerHTML]="'Switch language'|translate:'switchLanguage'"></span>
+	<app-icon icon="language"></app-icon>
 </button>

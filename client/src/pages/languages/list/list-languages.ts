@@ -39,4 +39,8 @@ export class ListLanguagesPageComponent {
   onLanguageClick(code: string) {
     this.router.navigate([AppRoutes.ListLanguages, code]);
   }
+
+  prefixImageUrl(sampleWordImageURL: string): string {
+    return `${this.endangeredLanguageService.imageAssetsURL}${sampleWordImageURL}`;
+  }
 }

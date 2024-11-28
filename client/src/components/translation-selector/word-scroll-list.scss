@@ -1,66 +1,67 @@
-@use '@angular/material' as mat;
-@import '../../style/palette';
-
+@use "@angular/material" as mat;
+@import "../../style/palette";
 :host {
-  display: block;
-  height: 32px;
-  position: relative;
-  cursor: pointer;
-  overflow: hidden;
-  -webkit-user-select: none;
-  user-select: none;
+    display: block;
+    height: 32px;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 ul {
-  margin: 0;
-  padding: 0;
-  text-align: center;
-  width: 100%;
-  position: relative;
-  bottom: 0;
-  list-style-type: none;
-  white-space: nowrap;
-
-  li {
-    margin: 0 10px;
+    margin: 0;
     padding: 0;
-    color: mat.get-color-from-palette($app-inverted, '500-contrast');
-    font-size: 1.2rem;
-    text-transform: lowercase;
-    display: inline-block;
+    text-align: center;
+    width: 100%;
     position: relative;
-    vertical-align: middle;
-
-    > * {
-      vertical-align: middle;
-    }
-
-    &.selected,
-    .selected-spacer {
-      font-size: 1.9rem;
-      letter-spacing: 0.1rem;
-    }
-
-    /* Spacer is used to set the dimensions of the element to selected size,
+    bottom: 0;
+    list-style-type: none;
+    white-space: nowrap;
+    li {
+        margin: 0 10px;
+        padding: 0;
+        color: mat.get-color-from-palette($app-inverted, "500-contrast");
+        font-size: 1.2rem;
+        text-transform: lowercase;
+        display: inline-block;
+        position: relative;
+        vertical-align: middle;
+        >* {
+            vertical-align: middle;
+        }
+        &.selected,
+        .selected-spacer {
+            font-size: 1.9rem;
+            letter-spacing: 0.1rem;
+        }
+        /* Spacer is used to set the dimensions of the element to selected size,
        so layout is unaffected when selecting/deselecting words */
-    .selected-spacer {
-      visibility: hidden;
+        .selected-spacer {
+            visibility: hidden;
+        }
+        .word {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: font-size 0.2s ease-in-out;
+            padding-bottom: 15px;
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-top: 5px;
+        }
     }
-
-    .word {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      transition: font-size 0.2s ease-in-out;
-    }
-  }
 }
 
+:host-context([dir="rtl"]) {
+    ul li.manual-entry app-icon {
+        margin-left: 0;
+        margin-right: 5px;
+    }
+}
 
-:host-context([dir=rtl]) {
-  ul li.manual-entry app-icon {
-    margin-left: 0;
-    margin-right: 5px;
-  }
+.strong-shadow {
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
 }

@@ -1,34 +1,75 @@
 <div class="language" *ngIf="language">
-  <div class="banner">
-    <button class="back" (click)="onBackClick($event)"><app-icon icon="back"></app-icon></button>
-    <img [src]="language ? language.sampleWordImageURL : ''" [alt]="'Tree' | translate:'tree':{}" />
-    <span class="translation" [innerHTML]="language ? language.sampleWordTranslation : ''"></span>
-    <span class="original" [innerHTML]="'Tree' | translate:'tree':{}"></span>
-  </div>
-  <div class="title">
-    <h1>{{ language ? language.name : '' }}</h1>
-    <button class="explore" (click)="onExploreLanguageClick()" *ngIf="language.organizationURL">{{language.organizationName}}</button>
-  </div>
-  <div class="details">
-    <div class="field">
-      <span class="label" [innerHTML]="'Region'|translate:'region'"></span>
-      <span class="value" [innerHTML]="'Region name'|translate:'region_' + (language ? language.code : '')"></span>
-    </div>
-  </div>
-  <div class="description" [innerHTML]="'Description'|translate:'description_' + (language ? language.code : '')"></div>
+	<div class="banner">
+		<button class="back" (click)="onBackClick($event)">
+			<app-icon icon="back"></app-icon>
+		</button>
+		<img [src]="languageImage" [alt]="'Tree' | translate:'tree':{}" />
+		<span
+			class="translation"
+			[innerHTML]="language ? language.sampleWordTranslation : ''"
+		></span>
+		<span
+			class="original"
+			[innerHTML]="'Tree' | translate:'tree':{}"
+		></span>
+	</div>
+	<div class="title">
+		<h1>{{ language ? language.name : '' }}</h1>
+		<button
+			class="explore"
+			(click)="onExploreLanguageClick()"
+			*ngIf="language.organizationURL"
+		>
+			{{language.organizationName}}
+		</button>
+	</div>
+	<div class="details">
+		<div class="field">
+			<span
+				class="label"
+				[innerHTML]="'Region'|translate:'region'"
+			></span>
+			<span
+				class="value"
+				[innerHTML]="'Region name'|translate:'region_' + (language ? language.code : '')"
+			></span>
+		</div>
+	</div>
+	<div
+		class="description"
+		[innerHTML]="'Language description'|translate:'description_' + (language ? language.code : '')"
+	></div>
 </div>
 <div class="other-languages">
-  <h2 [innerHTML]="'Other languages'|translate:'otherLanguages'"></h2>
-  <app-scroll-list [currentItem]="otherLanguages.length / 2" [snappingEnabled]="false" itemAlignment="start">
-    <ng-container *ngFor="let lang of otherLanguages">
-      <div class="language" *appScrollListItem (click)="onLanguageClick(lang.code)">
-        <div class="example">
-          <img [src]="lang.sampleWordImageURL" [alt]="'Tree' | translate:'tree':{}" />
-          <span class="translation" [innerHTML]="lang.sampleWordTranslation"></span>
-          <span class="original" [innerHTML]="'Tree' | translate:'tree':{}"></span>
-        </div>
-        <div class="name">{{ lang.name }}</div>
-      </div>
-    </ng-container>
-  </app-scroll-list>
+	<h2 [innerHTML]="'Other languages'|translate:'otherLanguages'"></h2>
+	<app-scroll-list
+		[currentItem]="otherLanguages.length / 2"
+		[snappingEnabled]="false"
+		itemAlignment="start"
+	>
+		<ng-container *ngFor="let lang of otherLanguages">
+			<div
+				class="language"
+				*appScrollListItem
+				(click)="onLanguageClick(lang.code)"
+				(keydown)="null"
+			>
+				<div class="example">
+					<img
+						[src]="prefixImageUrl(lang.sampleWordImageURL)"
+						[alt]="'Tree' | translate:'tree':{}"
+					/>
+					<span
+						class="translation"
+						[innerHTML]="lang.sampleWordTranslation"
+					></span>
+					<span
+						class="original"
+						[innerHTML]="'Tree' | translate:'tree':{}"
+					></span>
+				</div>
+				<div class="name">{{ lang.name }}</div>
+			</div>
+		</ng-container>
+	</app-scroll-list>
 </div>

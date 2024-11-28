@@ -1,97 +1,91 @@
-@import './dimensions';
+@import "./dimensions";
+@mixin text-shadow {
+	text-shadow: 1px 1px 5px rgba(0, 0, 0, 1) !important;
+}
 
 @mixin text-button {
-  padding: 0;
-  background: transparent;
-  border-style: none;
-  outline: none;
-  cursor: pointer;
+	padding: 0;
+	background: transparent;
+	border-style: none;
+	outline: none;
+	cursor: pointer;
+	@include text-shadow;
 }
 
 @mixin icon-button {
-  @include text-button;
-  width: 24px;
-  height: 24px;
-
-  app-icon {
-    width: 100%;
-    height: 100%;
-  }
-
-  mat-icon {
-    width: 100%;
-    height: 100%;
-  }
+	@include text-button;
+	@include text-shadow;
+	width: 24px;
+	height: 24px;
+	app-icon {
+		width: 100%;
+		height: 100%;
+	}
+	mat-icon {
+		width: 100%;
+		height: 100%;
+	}
 }
 
 @mixin centered-page {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: $max-content-width;
-  margin-left: auto;
-  margin-right: auto;
-
-  &:before {
-    content: "";
-    display: block;
-    flex: 0.5 1 300px;
-  }
-
-  &:after {
-    content: "";
-    display: block;
-    flex: 1 1 120px;
-  }
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	max-width: $max-content-width;
+	margin-left: auto;
+	margin-right: auto;
+	&:before {
+		content: "";
+		display: block;
+		flex: 0.5 1 300px;
+	}
+	&:after {
+		content: "";
+		display: block;
+		flex: 1 1 120px;
+	}
 }
 
 @mixin toolbar-page {
-  display: block;
-
-  .content {
-    padding: 110px 30px 30px 30px;
-    max-width: $max-content-width;
-    margin-left: auto;
-    margin-right: auto;
-  }
+	display: block;
+	.content {
+		padding: 110px 30px 30px 30px;
+		max-width: $max-content-width;
+		margin-left: auto;
+		margin-right: auto;
+	}
 }
 
 @mixin form-page {
-  @include toolbar-page;
-
-  mat-toolbar.mat-toolbar-single-row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding-right: 0;
-
-    span {
-      flex: 1 1 auto;
-    }
-
-    .mat-button-base {
-      flex: 0 0 auto;
-    }
-
-    .close {
-      flex: 0 0 auto;
-    }
-  }
-
-  :host-context([dir=rtl]) ::ng-deep  mat-toolbar.mat-toolbar-single-row {
-    padding-right: 20px;
-    padding-left: 0;
-
-    .mat-button-base {
-      margin-left: 0;
-      margin-right: 20px;
-    }
-  }
+	@include toolbar-page;
+	mat-toolbar.mat-toolbar-single-row {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		padding-right: 0;
+		span {
+			flex: 1 1 auto;
+		}
+		.mat-button-base {
+			flex: 0 0 auto;
+		}
+		.close {
+			flex: 0 0 auto;
+		}
+	}
+	:host-context([dir="rtl"]) ::ng-deep mat-toolbar.mat-toolbar-single-row {
+		padding-right: 20px;
+		padding-left: 0;
+		.mat-button-base {
+			margin-left: 0;
+			margin-right: 20px;
+		}
+	}
 }
 
 @mixin directional {
-  :host-context([dir=rtl]) ::ng-deep & {
-    transform: scaleX(-1);
-  }
+	:host-context([dir="rtl"]) ::ng-deep & {
+		transform: scaleX(-1);
+	}
 }
