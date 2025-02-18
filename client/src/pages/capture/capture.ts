@@ -173,7 +173,7 @@ export class CapturePageComponent
 				}
 				const errorMessage =
 					this.i18n.getTranslation("startCameraError") ||
-					"Unable to start camera, please try refreshing browser";
+					"Camera access denied. To proceed, please enable camera permissions in your browser settings.";
 				const errorDialog = this.dialog.open(ErrorPopUpComponent, {
 					data: { message: errorMessage },
 					panelClass: "capture-camera-error",

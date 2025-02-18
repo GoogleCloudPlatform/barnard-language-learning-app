@@ -37,6 +37,7 @@ export class ListLanguagesPageComponent {
   }
 
   onLanguageClick(code: string) {
+    console.log(AppRoutes.ListLanguages, code)
     this.router.navigate([AppRoutes.ListLanguages, code]);
   }
 

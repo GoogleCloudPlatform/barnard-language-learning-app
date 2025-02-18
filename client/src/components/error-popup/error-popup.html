@@ -1,6 +1,7 @@
 <h2 mat-dialog-title [innerHTML]="data.title || ('Error' | translate:'errorTitle')"></h2>
 <mat-dialog-content>
   <p>{{data.message}}</p>
+  <p><a href="https://support.google.com/chrome/answer/2693767" target="_blank">Get Help</a></p>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button color="warn" (click)="this.onCloseClick()" [innerHTML]="'Close' | translate:'close'"></button>

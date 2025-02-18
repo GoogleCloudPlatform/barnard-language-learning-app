@@ -58,7 +58,7 @@
 	"enterSomethingElse": "Adicione outra palavra",
 	"wordSubmitted": "Enviada para revisão",
 	"addWordError": "Não foi possível adicionar a palavra",
-	"startCameraError": "Não foi possível adicionar a palavra",
+	"startCameraError": "Acesso à câmera negado. Para continuar, ative as permissões da câmera nas configurações do seu navegador.",
 	"captureImageError": "Não foi possível capturar a imagem",
 	"feedbackSubmitted": "Feedback enviado",
 	"submitFeedbackError": "Não foi possível salvar o feedback",

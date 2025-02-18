@@ -1,8 +1,4 @@
-export enum FeedbackType {
-  IncorrectTranslation = 'incorrect',
-  OffensiveTranslation = 'offensive',
-  SuggestedTranslation = 'sugested'
-}
+export type FeedbackType = "suggested"
 
 export interface Feedback {
   word: string;
@@ -14,6 +10,6 @@ export interface Feedback {
   recording: Blob|null;
   suggestedTranslation: string;
   suggestedTransliteration: string;
-  types: FeedbackType[];
+  types: FeedbackType;
   content: string;
 }

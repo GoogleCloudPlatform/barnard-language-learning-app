@@ -172,7 +172,7 @@ export class ScrollListComponent implements AfterViewInit, OnDestroy {
 
 	@HostListener("touchend", ["$event"])
 	onTouchEnd(ev: TouchEvent) {
-		ev.preventDefault();
+		// ev.preventDefault();
 		logger.log("touch end");
 		window.document.body.removeEventListener("touchmove", this.onTouchMove);
 		window.document.body.removeEventListener("touchend", this.onTouchEnd);

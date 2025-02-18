@@ -8,23 +8,6 @@
   </mat-toolbar>
   <div class="content">
     <p class="mat-body-1 instructions" [innerHTML]="'Help us improve Woolaroo\'s translations by sharing your feedback with us:' | translate:'feedbackInstructions'"></p>
-    <div class="feedback-types">
-      <ul>
-        <li>
-          <mat-checkbox (change)="onFeedbackTypeChange($event, FeedbackType.IncorrectTranslation)"
-                        [checked]="typeIsSelected(FeedbackType.IncorrectTranslation)">
-            <span [innerHTML]="'Incorrect translation' | translate:'incorrectTranslation'"></span>
-          </mat-checkbox>
-        </li>
-        <li>
-          <mat-checkbox (change)="onFeedbackTypeChange($event, FeedbackType.OffensiveTranslation)"
-                        [checked]="typeIsSelected(FeedbackType.OffensiveTranslation)">
-            <span [innerHTML]="'Offensive translation' | translate:'offensiveTranslation'"></span>
-          </mat-checkbox>
-        </li>
-      </ul>
-      <mat-error *ngIf="feedbackForm.controls['types'].hasError('required')" [innerHTML]="'No feedback type selected' | translate:'feedbackTypeRequired'"></mat-error>
-    </div>
     <app-add-word-fieldset [formGroup]="feedbackForm" [includeRecording]="false" [suggested]="false"></app-add-word-fieldset>
     <mat-form-field class="textarea" appearance="outline" style="display: block;">
       <mat-label [innerHTML]="'Enter feedback' | translate:'enterFeedback'"></mat-label>

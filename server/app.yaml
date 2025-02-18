@@ -13,9 +13,9 @@
 # limitations under the License.
 
 runtime: nodejs22
-service: $SERVICE
+service: default
 
-default_expiration: "$CACHE"
+default_expiration: "360"
 
 handlers:
   - url: /woolaroo/assets/(.*)
@@ -49,7 +49,7 @@ handlers:
         default-src 'none';
         object-src 'none';
         script-src 'self';
-        connect-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com https://www.googletagmanager.com/ https://us-central1-cilex-woolaroo-2.cloudfunctions.net;
+        connect-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com https://www.googletagmanager.com/ https://woolaroo-b9v1uynn.uc.gateway.dev https://cms-dot-cilex-woolaroo-2.uc.r.appspot.com;
         font-src 'self';
         img-src 'self';
         style-src 'self';
@@ -71,9 +71,8 @@ handlers:
     static_files: index.html
     upload: index.html
     secure: always
-    expiration: $INDEX_CACHE
+    expiration: 360
     http_headers:
-      X-Frame-Options: "DENY"
       Strict-Transport-Security: "max-age=2592000; includeSubdomains"
       X-Content-Type-Options: "nosniff"
       X-XSS-Protection: "1; mode=block"
@@ -82,10 +81,11 @@ handlers:
         img-src 'self' blob: data: *.googleusercontent.com https://www.google-analytics.com https://storage.googleapis.com;
         frame-src 'self';
         object-src 'none';
-        script-src-elem 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.gstatic.com/ https://www.google-analytics.com https://apis.google.com;
-        script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://accounts.google.com https://www.googletagmanager.com https://www.gstatic.com https://www.google-analytics.com https://www.googleapis.com;
-        connect-src 'self' https://us-central1-cilex-woolaroo-2.cloudfunctions.net https://www.gstatic.com https://www.google-analytics.com https://www.googleapis.com https://apis.google.com https://*.googleapis.com https://www.googletagmanager.com https://fonts.googleapis.com;
+        script-src-elem 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.gstatic.com/ https://www.google-analytics.com https://apis.google.com https://cms-dot-cilex-woolaroo-2.uc.r.appspot.com;
+        script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://accounts.google.com https://www.googletagmanager.com https://www.gstatic.com https://www.google-analytics.com https://www.googleapis.com https://woolaroo-b9v1uynn.uc.gateway.dev https://cms-dot-cilex-woolaroo-2.uc.r.appspot.com;
+        connect-src 'self' https://www.gstatic.com https://www.google-analytics.com https://www.googleapis.com https://apis.google.com https://*.googleapis.com https://www.googletagmanager.com https://fonts.googleapis.com https://woolaroo-b9v1uynn.uc.gateway.dev https://cms-dot-cilex-woolaroo-2.uc.r.appspot.com;
         font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com;
         style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
         media-src 'self' https://storage.googleapis.com https://www.googleapis.com;
         manifest-src 'self';
+        frame-ancestors 'self' https://axl-debugger-dot-cilex-common.appspot.com;

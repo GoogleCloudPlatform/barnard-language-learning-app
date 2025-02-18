@@ -69,12 +69,13 @@ if (DEV_MODE) {
       background: 'rgba(255,0,0,.75)',
       color: '#fff',
       fontFamily: 'Arial',
-      fontSize: '12px',
+      fontSize: '10px',
       left: 0,
-      padding: '12px',
+      padding: '10px',
       position: 'fixed',
-      top: 0,
+      bottom: 0,
       zIndex: 9999,
+      fontWeight: 'bold',
     };
     Object.assign(watermarkEl.style, rules);
     document.body.appendChild(watermarkEl);

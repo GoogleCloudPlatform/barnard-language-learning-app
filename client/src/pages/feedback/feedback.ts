@@ -8,7 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ErrorPopUpComponent } from '../../components/error-popup/error-popup';
 import { ANALYTICS_SERVICE, IAnalyticsService } from '../../services/analytics';
 import { FEEDBACK_SERVICE, IFeedbackService } from '../../services/feedback';
-import { FeedbackType, Feedback } from '../../services/entities/feedback';
+import {  Feedback, FeedbackType } from '../../services/entities/feedback';
 import { LoadingPopUpComponent } from '../../components/loading-popup/loading-popup';
 import { environment } from '../../environments/environment';
 import { I18nService } from '../../i18n/i18n.service';
@@ -27,7 +27,7 @@ export class FeedbackPageComponent implements AfterViewInit {
   public readonly feedbackForm: FormGroup;
   private readonly prevPageCssClass?: string;
   public submittingForm = false;
-  public FeedbackType = FeedbackType;
+  public FeedbackType: FeedbackType;
 
   constructor(private router: Router,
     private location: Location,
@@ -51,9 +51,6 @@ export class FeedbackPageComponent implements AfterViewInit {
       content: new FormControl('', [
         Validators.required
       ]),
-      types: new FormControl([], [
-        (ctl) => ctl.dirty && (!ctl.value || ctl.value.length === 0) ? { required: true } : null
-      ])
     });
     this.prevPageCssClass = history.state.prevPageCssClass;
   }
@@ -67,9 +64,6 @@ export class FeedbackPageComponent implements AfterViewInit {
     for (const k of Object.keys(this.feedbackForm.controls)) {
       this.feedbackForm.controls[k].markAsDirty();
     }
-    // Force types checkboxes to validate
-    const typesControl = this.feedbackForm.controls.types;
-    typesControl.updateValueAndValidity();
     if (!this.feedbackForm.valid) {
       return;
     }
@@ -81,6 +75,7 @@ export class FeedbackPageComponent implements AfterViewInit {
     }
     feedback.language = this.i18n.currentLanguage.code;
     feedback.nativeLanguage = this.endangeredLanguageService.currentLanguage.code;
+    feedback.types = "suggested"
     this.feedbackService.sendFeedback(feedback).then(
       () => {
         logger.log('Feedback submitted');
@@ -106,29 +101,11 @@ export class FeedbackPageComponent implements AfterViewInit {
     );
   }
 
-  typeIsSelected(type: FeedbackType): boolean {
-    return this.feedbackForm.controls.types.value.indexOf(type) >= 0;
-  }
-
-  onFeedbackTypeChange(ev: MatCheckboxChange, type: FeedbackType) {
-    const ctl = this.feedbackForm.controls.types;
-    const types = ctl.value;
-    const index = types.indexOf(type);
-    if (ev.checked) {
-      if (index < 0) {
-        types.push(type);
-      }
-    } else if (index >= 0) {
-      types.splice(index, 1);
-    }
-    ctl.markAsDirty();
-    ctl.markAsTouched();
-    ctl.setValue(types);
-  }
-
   onCloseClick(ev: Event) {
     ev.stopPropagation();
     ev.preventDefault();
     history.back();
   }
+
+
 }

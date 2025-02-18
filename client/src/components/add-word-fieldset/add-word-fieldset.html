@@ -2,22 +2,22 @@
   <div style="display: flex; flex-direction: column;">
     <div style="display: flex; flex-direction: column;" *ngIf="!suggested">
       <mat-form-field class="text" appearance="outline">
-        <mat-label [innerHTML]="'Current Word in native script' | translate:'wordInNativeScript'"></mat-label>
+        <mat-label [innerHTML]="'Current Word' | translate:'wordInNativeScript'"></mat-label>
         <input type="text" required matInput name="nativeWord" formControlName="nativeWord" maxlength="100" />
       </mat-form-field>
       <mat-form-field class="text" appearance="outline">
-        <mat-label [innerHTML]="'Transliteration'| translate:'transliteration'"></mat-label>
+        <mat-label [innerHTML]="'Current Transliteration'| translate:'transliteration'"></mat-label>
       <input type="text" required matInput name="transliteration" formControlName="transliteration" />
       </mat-form-field>
       <mat-form-field class="text" appearance="outline" [hideRequiredMarker]="true"
-        [hintLabel]="'e.g. هتاف للترحيب' | translate:'nativeScriptHint'">
+        [hintLabel]="'e.g. مرحبا' | translate:'nativeScriptHint'">
         <mat-label [innerHTML]="'Suggested Word in native script (optional)' | translate:'suggestedWordOptional'"></mat-label>
       <input type="text" matInput name="suggestedTranslation" formControlName="suggestedTranslation" maxlength="100" />
       </mat-form-field>
     </div>
     <div style="display: flex; flex-direction: column;" *ngIf="suggested">
       <mat-form-field class="text" appearance="outline"
-        [hintLabel]="'e.g. هتاف للترحيب' | translate:'nativeScriptHint'">
+        [hintLabel]="'e.g. مرحبا' | translate:'nativeScriptHint'">
       <mat-label [innerHTML]="'Suggested Word in native script'| translate:'suggestedWord'"></mat-label>
       <input type="text" required matInput name="suggestedTranslation" formControlName="suggestedTranslation" maxlength="100" />
       </mat-form-field>
